@@ -154,6 +154,265 @@ header{background:var(--hd);border-bottom:3px solid var(--ol)}body::before{backg
 .sheet button.spk{width:auto;margin:6px 0 0;padding:4px 10px;font-size:12px;background:var(--surface);color:var(--ink);border:2px solid var(--ol);box-shadow:2px 2px 0 var(--ol);border-radius:6px}
 .jp.me .spk{background:var(--hd)}
 .hero .chip{background:var(--hd);color:var(--ink)}
+
+/* ===== 애니메이션 · 접기 카드 · 구글 검색 ===== */
+.bd{display:flex;visibility:hidden;opacity:0;transition:opacity .25s ease,visibility 0s linear .25s}
+.bd.on{visibility:visible;opacity:1;transition:opacity .25s ease,visibility 0s}
+.bd .sheet{transform:translateY(100%);transition:transform .28s cubic-bezier(.4,0,.8,.6);box-shadow:0 80px 0 var(--surface)}
+.bd.on .sheet{transform:none;transition:transform .55s cubic-bezier(.3,1.22,.5,1)}
+.status{cursor:pointer}
+.status .sh{display:flex;align-items:center;gap:8px}
+.status .s1{flex:1;min-width:0}
+.status .chev{font-style:normal;font-size:16px;color:var(--sub);transition:transform .3s}
+.status.col .chev{transform:rotate(180deg)}
+.status.col .s1{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.status.col .s1 b,.status.col .s1 span{display:inline;font-size:14px}
+.status.col .s1 span{margin-left:6px}
+.status .sb{display:grid;grid-template-rows:1fr;transition:grid-template-rows .3s ease,visibility 0s;visibility:visible}
+.status .sb>div{overflow:hidden}
+.status.col .sb{grid-template-rows:0fr;visibility:hidden;transition:grid-template-rows .3s ease,visibility 0s linear .3s}
+.status.col{padding-top:9px;padding-bottom:9px}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+@keyframes dIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+#app:not([hidden]),#home:not([hidden]){animation:fadein .35s ease}
+#stops.sw .stop,#stops.sw .leg{animation:rise .32s ease both}
+details.jpd[open]>*:not(summary){animation:dIn .28s ease both}
+.card,.leg,.dbtn,.big{transition:transform .15s ease,box-shadow .15s ease}
+.stop:active .card,.leg:active,.dbtn:active,.big:active{transform:scale(.98)}
+#toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);max-width:86%;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;z-index:40;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+.sheet .go.alt{margin-bottom:6px}.gn{font-size:13px;color:var(--sub);margin:6px 0;line-height:1.5}
+.gerr{font-size:14px;color:var(--bus);margin:8px 0;word-break:break-word}
+.gc{display:flex;gap:10px;margin:10px 0;padding:10px;border:1px solid var(--line);border-radius:12px;align-items:flex-start}
+.gi{width:76px;height:76px;flex:none;border-radius:8px;background:var(--bg);display:grid;place-items:center;font-size:11px;color:var(--sub);overflow:hidden}
+.gi img{width:100%;height:100%;object-fit:cover}
+.gt{min-width:0;flex:1}.gt b{display:block;font-size:15px}.gt small{display:block;font-size:12px;color:var(--sub);margin-top:2px}
+.gt a.hl{display:inline-block;margin-top:4px;font-size:13px}
+.gph{display:flex;gap:6px;overflow-x:auto;margin:8px 0}.gph img{height:120px;border-radius:8px;flex:none}
+.gl{margin:8px 0;padding:8px 10px;border:1px dashed var(--route);border-radius:10px;font-size:13px}
+.gwarn{font-size:13px;color:var(--bus);margin:6px 0}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* ===== 고정핀 · 경고 · 지도 ===== */
+.card{position:relative}
+.stop.pn .card::after{content:"";position:absolute;top:-15px;right:14px;width:26px;height:34px;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='26' height='34' viewBox='0 0 26 34'><path d='M13 21 L13 33' stroke='%23777' stroke-width='2.2' stroke-linecap='round'/><rect x='7' y='17' width='12' height='5' rx='1.5' fill='%23c0353a' stroke='%231b1b1b' stroke-width='1.6'/><circle cx='13' cy='10' r='8.5' fill='%23e5484d' stroke='%231b1b1b' stroke-width='1.8'/><circle cx='10' cy='7' r='2.6' fill='%23ffb3b8'/></svg>") no-repeat center/contain;transform:rotate(14deg);filter:drop-shadow(1px 2px 1px rgba(0,0,0,.35));pointer-events:none;z-index:2}
+.stop.pn .card h3{padding-right:26px}
+.leg.bad,.leg.ov{border-color:#e5484d!important;color:#e5484d!important;background:rgba(229,72,77,.12)!important;font-weight:700}
+.leg.ov{background:rgba(229,72,77,.24)!important;border-style:solid!important}
+.stop.ov .card{outline:2px solid #e5484d}
+.mapd{margin-top:12px;border:1px solid var(--line);border-radius:12px;padding:8px 12px}
+.mapd summary{cursor:pointer;font-size:14px;font-weight:700}
+.mapb{margin-top:8px}.mapb iframe{width:100%;height:240px;border:0;border-radius:10px;background:var(--bg)}
+
+.hbody{display:grid;grid-template-rows:1fr;transition:grid-template-rows .32s ease}
+.hbody>.hin{overflow:hidden;min-height:0}
+header.hc .hbody{grid-template-rows:0fr}
+header.hc{padding-top:6px;padding-bottom:6px}
+.hz{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:4px;padding:4px 0;border:0;background:none;color:var(--sub);font:600 13px inherit;cursor:pointer}
+.hz i{font-style:normal;font-size:16px;transition:transform .3s}
+header.hc .hz{margin-top:0;color:var(--ink)}
+header.hc .hz i{transform:rotate(180deg)}
+.hz span{display:none}header.hc .hz span{display:inline}
+
+.sim .sbt{display:flex;gap:6px;align-items:center}
+.sim .add{display:inline-block;width:auto;margin:0;padding:5px 10px;border-radius:8px;font-size:13px;box-shadow:none}
+.sheet .brow{display:flex;gap:8px}.sheet .brow button{flex:1;width:auto}
+
+
+.sim .row{gap:6px}.sim .row span:first-child{font-size:12px;white-space:nowrap}
+@media (max-width:420px){.sim .row{flex-wrap:wrap;row-gap:4px;justify-content:flex-end}.sim:not(.on) #simlabel{display:none}.sim.on #simlabel{flex:1 0 100%}}
+.sim .sbt button{padding:5px 8px;font-size:12px;white-space:nowrap}
+.rmbar{display:none}.sim.rm .rmbar{display:flex;align-items:center;justify-content:flex-end;gap:8px;font-size:13px;color:var(--sub)}
+.sim.rm .row,.sim.rm input{display:none!important}
+.rmbar .ok{background:var(--ink);color:var(--bg)}
+.mv{display:none}
+body.rm .mv{display:flex;gap:6px;position:absolute;right:8px;bottom:8px}
+.mv b[data-pin].on{background:#e5484d;border-color:#e5484d}
+.mv b.dl,.mv b[data-del]{background:var(--bg);color:#e5484d;border-color:#e5484d}
+.mv b{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:3px 9px;font-size:13px;cursor:pointer}
+body.rm .leg{opacity:.28;pointer-events:none}
+body.rm .stop{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;cursor:grab}
+body.rm .stop.pn .card{opacity:.85}
+body.rm .stop .card{padding-bottom:36px}
+.stop.lift{z-index:12;transition:none!important}
+.stop.lift .card{box-shadow:0 12px 26px rgba(0,0,0,.38);outline:2px solid var(--route)}
+.stop.insb::before,.stop.insa::after{content:"";position:absolute;left:0;right:0;height:4px;border-radius:2px;background:var(--route);z-index:11}
+.stop.insb::before{top:-11px}.stop.insa::after{bottom:3px}
+.rv{margin:12px 0;padding:10px 12px;border:1px solid var(--line);border-radius:12px}
+.rs{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-top:8px;font-size:14px}
+.rs small{color:var(--sub);font-size:12px;line-height:1.4}
+.seg{display:flex;gap:6px;flex:none}
+.sheet .seg button{width:auto;margin:0;padding:7px 10px;font-size:12px;background:var(--bg);color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.sheet .seg button.on{background:var(--route);color:#fff}
+
+body.tmv #rmmsg{display:none}
+body.tmv .rmbar .sbt{margin-left:auto}
+.rv small{display:block;color:var(--sub);margin:2px 0 6px}
+.stm{display:inline-block;margin-top:6px;font-size:11.5px;font-weight:700;color:var(--route);border:1.5px solid var(--route);border-radius:999px;padding:1px 8px}
+body.tmv .stm,body.rm .stm{display:none}
+.dep{font-size:12px;color:var(--route);margin-top:4px;font-weight:700}
+.dep.warn{color:#d97706}.dep.bad{color:#e5484d}
+body.rm .dep{display:none}
+.fdb .gc{margin:10px 0}
+
+.sim .sbt{flex-wrap:wrap;justify-content:flex-end}
+body.tmv .stop,body.tmv .leg{transition:margin-bottom .7s cubic-bezier(.2,.8,.2,1)}
+body.tmnt .stop,body.tmnt .leg{transition:none!important}
+body.tmv .stop{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;cursor:grab}
+body.tmv .stop.pn{cursor:not-allowed}
+body.tmv .leg{pointer-events:none}
+body.tmv #tl{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.tmpop{position:absolute;left:0;right:0;height:0;z-index:25}
+.tmg2{position:absolute;left:40px;right:0;top:0;border-top:3px solid var(--route);pointer-events:none}
+.tmpb{position:absolute;left:62px;bottom:8px;background:var(--ink);color:var(--bg);border-radius:12px;padding:8px 10px;box-shadow:0 6px 16px rgba(0,0,0,.35);width:236px}
+.tmpb::after{content:"";position:absolute;left:30px;bottom:-6px;border:6px solid transparent;border-bottom:0;border-top-color:var(--ink)}
+.tmpt{font-size:13px;margin-bottom:6px}
+.tmpr{display:flex;gap:6px}
+.tmpr button{flex:1;border:0;border-radius:8px;padding:8px 4px;font-size:13px;font-weight:700;background:var(--bg);color:var(--ink);cursor:pointer}
+.tmg{position:absolute;left:40px;right:0;height:0;border-top:3px solid var(--route);z-index:5;pointer-events:none}
+.sbar{position:absolute;width:6px;border-radius:3px;background:var(--route);opacity:.55;pointer-events:none}
+.tmd{display:none}body.tmv .tmd{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:12px;color:var(--sub)}
+.tmd button{width:32px;height:28px;border:2px solid var(--ink);border-radius:8px;background:var(--surface);color:var(--ink);font-size:16px;font-weight:700;line-height:1;cursor:pointer;padding:0}
+.tmd{flex-wrap:wrap}.tmr{flex-basis:100%;display:flex;gap:6px}.tmr button{flex:1;width:auto;font-size:12px}
+.tmd b{flex:1;text-align:center;color:var(--ink)}
+body.tmv .dep{display:none}
+body.tmv .leg.tmx{opacity:.45;border-style:dotted}
+body.tmv .stop .card{touch-action:pan-y}
+.stop.lift .time{color:var(--route);font-weight:700}
+#tmticks{position:absolute;left:0;top:0;width:100%;height:0;pointer-events:none}
+.htk{position:absolute;left:-2px;width:40px;text-align:right;font-style:normal;font-size:10px;color:var(--sub);opacity:.75;font-variant-numeric:tabular-nums}
+.tmbub{position:fixed;left:50%;transform:translateX(-50%);top:calc(62px + env(safe-area-inset-top,0px));background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:999px;font-size:15px;font-weight:700;z-index:30;pointer-events:none}
+.tmbub[hidden]{display:none}
+
+/* PC */
+.top{flex-wrap:wrap;gap:6px}
+body.pcf{min-width:1180px}
+.mobonly{display:inline-block}body.pcv .mobonly{display:none}.pconly{display:none}body.pcv .pconly{display:inline-block}
+#pc{display:none}
+body.pcv #pc{display:block;padding:6px 24px 110px;min-width:0}
+body.pcv #tl,body.pcv #up{display:none!important}
+body.pcv:not(.tmv) .sim{display:none!important}
+body.pcv header .tabs,body.pcv header .ttl,body.pcv header .status,body.pcv header .hz{display:none}
+body.pcv #tl{max-width:600px;margin-left:auto;margin-right:auto}
+body.pcv{max-width:none}
+body.pcv header .top{justify-content:flex-start;gap:10px}
+body.pcv header .hin{max-width:none;margin:0;padding:0 24px}
+.pctabs{display:none;gap:8px;margin:2px 0 10px}body.pcv .pctabs{display:flex}
+.pctabs button{border:2px solid var(--ink);background:var(--surface);color:var(--ink);border-radius:8px;padding:6px 16px;font:700 13px inherit;cursor:pointer;box-shadow:2px 2px 0 var(--ink)}
+.pctabs button[aria-pressed="true"]{background:#f2b300;color:#1d1d26}
+.pctabs .pcedit{margin-left:auto;background:var(--surface);color:var(--ink)}
+body.pcv.tmv .pctabs{display:none}
+.pcttl{display:flex;align-items:baseline;gap:12px;padding:4px 2px 14px}
+.pcttl b{font-size:17px}.pcttl span{color:var(--sub);font-size:13px}
+.snake{position:relative;padding:34px 165px 20px}
+.spath{position:absolute;left:0;top:0;pointer-events:none;overflow:visible}
+.spath path{fill:none;stroke:var(--line);stroke-width:6;stroke-linecap:round}
+.srow{display:grid;grid-template-columns:repeat(var(--c),minmax(0,1fr));margin-bottom:96px}
+.srow:last-child{margin-bottom:0}
+.scell{display:flex;flex-direction:column;align-items:center;min-width:0;position:relative}
+.snode{width:46px;height:46px;border-radius:50%;border:3px solid #f2b300;background:var(--surface);display:grid;place-items:center;font-size:20px;position:relative;z-index:2}
+.scard{margin-top:12px;width:calc(100% - 18px);max-width:230px;background:var(--surface);color:var(--ink);border:2px solid var(--ink);border-radius:8px;box-shadow:3px 3px 0 var(--ink);padding:8px 10px;text-align:left;cursor:pointer;font:inherit;position:relative}
+.scard b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:13.5px;line-height:1.35}
+.scard small{display:block;margin-top:3px;color:var(--sub);font-size:11.5px}
+.scard.sel{outline:3px solid #f2b300;outline-offset:2px}
+.scard.ov{border-color:#e5484d}
+.scard.pn::after{content:"📌";position:absolute;top:-14px;right:8px;font-size:15px}
+.scell.past .snode,.scell.past .scard{opacity:.55}
+.scell.here .snode{background:#f2b300;box-shadow:0 0 0 5px rgba(242,179,0,.35)}
+#spills{position:absolute;left:0;top:0;width:0;height:0}
+.spill{position:absolute;max-width:150px;overflow:hidden;text-overflow:ellipsis;transform:translate(-50%,-50%);z-index:3;background:var(--surface);color:var(--ink);border:1.5px dashed var(--route);border-radius:999px;padding:2px 9px;font:600 11px inherit;white-space:nowrap;cursor:pointer}
+.spill.bad,.spill.ov{border-color:#e5484d;color:#e5484d;background:rgba(229,72,77,.12);border-style:solid}
+body.pcv .bd{background:transparent;pointer-events:none;justify-content:flex-end;align-items:stretch}
+body.pcv .bd .sheet{pointer-events:auto;width:420px;max-width:420px;height:100%;max-height:100%;border-radius:0;border-top:0;border-left:4px solid var(--line);transform:translateX(105%);box-shadow:-10px 0 30px rgba(0,0,0,.22);padding-top:28px}
+body.pcv .bd.on .sheet{transform:none;transition:transform .5s cubic-bezier(.3,1.15,.5,1)}
+body.pcv.inapp{padding-right:420px}
+body.pcv:not(.inapp) #home{max-width:880px;margin:0 auto}
+.big.live{display:grid;grid-template-columns:auto 1fr;column-gap:10px;align-items:center}.big.live .il{grid-row:span 2;margin:0}.big.live small{grid-column:2;margin-top:0}
+body.pcv:not(.inapp) #pcph,body.pcv:not(.inapp) #pcfold{display:none!important}
+#pcph{display:none}body.pcv #pcph{display:grid;position:fixed;right:0;top:0;width:420px;height:100%;place-items:center;border-left:4px solid var(--line);color:var(--sub);font-size:14px;text-align:center;padding:30px;z-index:1}
+body.pcv .bd{z-index:50}
+body.pcv .sim{max-width:none;right:420px;margin:0;border-right:0}
+.esnake{position:relative;user-select:none;-webkit-user-select:none}
+.esnake svg{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
+.esnake path{fill:none;stroke-linecap:round}
+.esnake .ed{fill:var(--line)}
+.esnake .elk{stroke:var(--ink);stroke-width:1.6;opacity:.45}
+.esnake .eb{stroke:var(--line);stroke-width:6}
+.esnake .es{stroke:#f2b300;stroke-width:10}
+.esnake .et{stroke:#5ac8fa;stroke-width:10}
+.esnake .ex{stroke:#e5484d;stroke-width:10}
+.enode{position:absolute;width:32px;height:32px;margin:-16px 0 0 -16px;border-radius:50%;border:3px solid #f2b300;background:var(--surface);display:grid;place-items:center;font-size:15px;z-index:4;cursor:ew-resize}
+.enode.pn{cursor:not-allowed;border-color:var(--ink)}
+.estem{position:absolute;width:2px;background:var(--ink);opacity:.35;z-index:1}
+.ecard{position:absolute;width:132px;box-sizing:border-box;background:var(--surface);color:var(--ink);border:2px solid var(--ink);border-radius:7px;box-shadow:2px 2px 0 var(--ink);padding:4px 7px;z-index:3;cursor:grab}
+.ecard.pn{cursor:pointer}
+.ecard b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px}
+.ecard small{display:block;color:var(--sub);font-size:10.5px;white-space:nowrap}
+.ecard.sel{outline:3px solid #f2b300;outline-offset:1px}
+.ecard.ov{border-color:#e5484d}
+.ecard.drag{z-index:20;box-shadow:5px 6px 0 rgba(0,0,0,.35);cursor:grabbing}
+.enode.drag{box-shadow:0 0 0 5px rgba(242,179,0,.45)}
+.eknob{position:absolute;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#fff;border:3px solid #c98f00;z-index:5;cursor:ew-resize;box-sizing:border-box}
+.eknob:hover,.eknob.drag{transform:scale(1.3)}
+.etick{position:absolute;transform:translate(-50%,-50%);font-size:10px;color:var(--sub);z-index:2;pointer-events:none;white-space:nowrap}
+.epill{position:absolute;transform:translate(-50%,-50%);font-size:10.5px;font-weight:700;background:var(--surface);border:1.5px solid #5ac8fa;color:#1c7fb0;border-radius:999px;padding:0 6px;white-space:nowrap;z-index:2;pointer-events:none}
+.epill.bad{border-color:#e5484d;color:#e5484d}
+.ehov{position:absolute;width:2px;height:26px;margin:-13px 0 0 -1px;background:var(--route);z-index:6;pointer-events:none}
+.ehov[hidden]{display:none}
+.ehov span{position:absolute;bottom:calc(100% + 2px);left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);font-size:11px;padding:1px 6px;border-radius:6px;white-space:nowrap}
+
+.scard small,.ecard small{display:flex;justify-content:space-between;align-items:baseline;gap:6px}
+.scard small em,.ecard small em{font-style:normal;font-weight:800;color:#f08c00;font-size:12.5px;white-space:nowrap}
+.ecard small em{font-size:11.5px}
+body.pcv #expb{margin-left:auto}
+.pcvm{display:inline-flex;margin-left:14px;gap:0}
+.pctabs .pcvm button{border-radius:0;box-shadow:none;padding:6px 12px}
+.pctabs .pcvm button:first-child{border-radius:8px 0 0 8px}
+.pctabs .pcvm button:last-child{border-radius:0 8px 8px 0;border-left:0}
+.ecard.ro,.enode.ro{cursor:pointer}
+.epill.lk{pointer-events:auto;cursor:pointer}
+.enow{position:absolute;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#e5484d;box-shadow:0 0 0 5px rgba(229,72,77,.3);z-index:6;pointer-events:none}
+.enow span{position:absolute;left:50%;bottom:calc(100% + 6px);transform:translateX(-50%);background:#e5484d;color:#fff;font-size:11px;font-weight:700;padding:1px 6px;border-radius:6px;white-space:nowrap}
+#pcfold{display:none}
+body.pcv #pcfold{display:grid;place-items:center;position:fixed;top:50%;right:420px;transform:translateY(-50%);width:22px;height:64px;padding:0;border:2px solid var(--ink);border-right:0;border-radius:8px 0 0 8px;background:var(--surface);color:var(--ink);font:700 18px inherit;z-index:60;cursor:pointer;transition:right .35s cubic-bezier(.3,1.1,.5,1)}
+body.pcv.pcc #pcfold{right:0}
+body.pcv #pcph{transition:transform .35s cubic-bezier(.3,1.1,.5,1)}
+body.pcv.pcc #pcph{transform:translateX(100%)}
+body.pcv.pcc .bd .sheet{transform:translateX(105%)!important}
+.syb{font-size:11px;color:var(--sub);margin:4px 2px 2px}.syb.ok{color:#2f9e44}.syb.err{color:#e5484d}.syb.local{color:#c98f00}
+.askd{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:grid;place-items:center;padding:16px}
+.askb{background:var(--surface);color:var(--ink);border:3px solid var(--ink);border-radius:12px;box-shadow:5px 5px 0 var(--ink);padding:18px;max-width:380px;width:100%}
+.askb p{margin:0 0 14px;white-space:pre-line;line-height:1.55;font-size:14.5px}
+.askr{display:flex;gap:8px;justify-content:flex-end}
+.askr button{border:2px solid var(--ink);border-radius:8px;padding:8px 16px;font:700 14px inherit;cursor:pointer;background:var(--surface);color:var(--ink)}
+.askr .y{background:var(--ink);color:var(--bg)}
+.pe .r{display:flex;align-items:center;gap:8px;margin:8px 0}
+.pe .r span{width:56px;color:var(--sub);font-size:13px}
+.pe .r b{flex:1;text-align:center;font-size:16px}
+.sheet .pe button{background:var(--surface);color:var(--ink)}.sheet .pe .r button{width:46px;margin:0;padding:6px 0;flex:none}
+.sheet .pe button.dl{color:#e5484d;border-color:#e5484d}
+
+#pcph .e,body.tmv #pcph .v{display:none}body.tmv #pcph .e{display:block;text-align:left;line-height:1.7;font-size:13.5px}
+.sctl{width:calc(100% - 18px);max-width:230px;margin-top:8px;display:none;flex-direction:column;gap:5px}
+body.tmv .sctl{display:flex}
+.sctl .r{display:flex;align-items:center;gap:4px}
+.sctl .r b{flex:1;text-align:center;font-size:12px;white-space:nowrap}
+.sctl button{border:2px solid var(--ink);border-radius:7px;background:var(--surface);color:var(--ink);font:700 12px inherit;padding:3px 0;cursor:pointer;min-width:28px;flex:none}
+.sctl .r.g button{flex:1}
+.sctl button.on{background:#f2b300;color:#1d1d26}
+.sctl button.dl{color:#e5484d;border-color:#e5484d}
+body.tmv .scard{cursor:grab;user-select:none;-webkit-user-select:none;touch-action:pan-y}
+body.tmv .scard.pn{cursor:not-allowed}
+.scell.lift .scard{position:relative;z-index:40;box-shadow:6px 8px 0 rgba(0,0,0,.35);cursor:grabbing}
+.scell.tgt .snode{box-shadow:0 0 0 6px rgba(242,179,0,.55);background:#fff3c4}
+.snode.plus{border-style:dashed;color:var(--sub);font-size:24px;cursor:pointer}
+.spl{position:absolute;transform:translate(-50%,-50%);z-index:3;width:24px;height:24px;border-radius:50%;border:2px solid var(--ink);background:#f2b300;color:#1d1d26;font:800 16px/1 inherit;padding:0;cursor:pointer;display:grid;place-items:center}
+.spill.tmx{opacity:.6;border-style:dotted}
+.pcpop{position:fixed;z-index:45;transform:translate(-50%,-100%) translateY(-14px);background:var(--ink);color:var(--bg);border-radius:12px;padding:8px 10px;box-shadow:0 6px 16px rgba(0,0,0,.35);width:236px}
+.pcpop::after{content:"";position:absolute;left:50%;bottom:-6px;margin-left:-6px;border:6px solid transparent;border-bottom:0;border-top-color:var(--ink)}
+.pcpop .t{font-size:13px;margin-bottom:6px}.pcpop .rr{display:flex;gap:6px}
+.pcpop button{flex:1;border:0;border-radius:8px;padding:8px 4px;font-size:13px;font-weight:700;background:var(--bg);color:var(--ink);cursor:pointer}
 </style>
 </head>
 <body>
@@ -162,13 +421,16 @@ header{background:var(--hd);border-bottom:3px solid var(--ol)}body::before{backg
 <div class="ht"><h1>오사카 3일 여행</h1><p>11/7 (토) – 11/9 (월) · 노선도를 따라가요</p></div></div>
 <div class="menu"><button class="big live" id="h-live"><i class="sprite il"></i>실시간 일정 보기<small id="h-sub"></small></button><div class="days" id="h-days"></div><button class="big alt" id="h-tax">💴 면세 · 택스 리펀드 안내<small>구매 조건, 공항 환급 방법</small></button></div></div>
 <div id="app" hidden>
-<header><div class="top"><button class="chip" id="back">🏠 홈</button><button class="chip tg"></button><button class="chip" id="taxb">💴 면세 안내</button></div><div class="tabs" id="tabs"></div><div class="ttl" id="ttl"></div><div class="tip" id="tip"></div><div class="status" id="status"></div></header>
+<header><div class="hbody"><div class="hin"><div class="top"><button class="chip" id="back">🏠 홈</button><button class="chip tg"></button><button class="chip" id="taxb">💴 면세 안내</button><button class="chip pconly" id="expb">내보내기</button><button class="chip pconly" id="impb">가져오기</button><button class="chip pconly" id="pcvt">보관함 (0)</button><button class="chip" id="layb">PC로 보기</button></div><div class="syb" id="syb"></div><div class="pctabs pconly" id="pctabs"></div><div class="tabs" id="tabs"></div><div class="ttl" id="ttl"></div><div class="tip" id="tip"></div><div class="status" id="status"></div></div></div><button class="hz" id="hz" aria-expanded="true"><span id="hzl"></span><i>⌃</i></button></header>
 <div class="tl" id="tl"><div class="rail"></div><div class="fill" id="fill"></div><div class="bus" id="bus"></div><div id="stops"></div></div>
-<button class="add" id="add">＋ 일정 추가</button><button class="add" id="rst">처음 일정으로 되돌리기</button>
-<div class="sim" id="sim"><div class="row"><span id="simlabel">실시간 위치</span><button id="simbtn">시간 미리보기</button></div><input type="range" id="slider" min="420" max="1380" step="5"></div>
+<div id="pc"></div>
+<button class="add" id="up">↑ 맨 위로 올라가기</button>
+<div class="sim" id="sim"><div class="row"><span id="simlabel">실시간 위치</span><span class="sbt"><button id="expb2" class="mobonly">내보내기</button><button id="impb2" class="mobonly">가져오기</button><button id="tvb">일정 수정</button><button id="simbtn">시간 미리보기</button></span></div><div class="rmbar"><span id="rmmsg"></span><span class="sbt"><button id="aib">✨ 추천</button><button id="vtb">보관함 (0)</button><button id="rmc">취소</button><button id="rmo" class="ok">확인</button></span></div><input type="range" id="slider" min="420" max="1380" step="5"></div>
 </div>
+<div class="tmbub" id="tmbub" hidden></div>
 <div class="bd" id="bd"><div class="sheet" id="sheet"></div></div>
 <script>
+var RM={on:false},TM={on:false},VAULT=[],PCV=false;
 /* sum=요약, det=팝업 상세, ! 로 시작하면 주의 문구 */
 const DAYS=[{date:"2026-11-07",title:"11/7 (토) 오사카",stops:[
 {time:"11:00",dur:60,name:"간사이공항 도착",sum:"입국심사·수하물 40~60분+",det:["토요일 점심 시간대라 여행객이 붐빌 수 있어요.","입국심사 및 수하물 찾는 데 대략 40분~1시간 이상 예상."]},
@@ -189,8 +451,8 @@ const DAYS=[{date:"2026-11-07",title:"11/7 (토) 오사카",stops:[
 /* 구글맵 검색어 [장소, 이동수단] — 식당·피자집 이름은 실제 상호로 바꿔주세요 */
 const MQ=[["Kansai International Airport","transit"],["Kansai-airport Station","walking"],["Namba Station Nankai","transit"],["Miro Hotel Dotonbori Osaka","walking"],["Miro Hotel Dotonbori Osaka","walking"],["Tonkatsu Minato Shimanouchi Osaka","walking"],["Kuromon Market Osaka","walking"],["Osaka Castle","transit"],["Henry's Pizza Osaka","transit"],["Tombori River Cruise Dotonbori","walking"],["Miro Hotel Dotonbori Osaka","walking"],["Pokemon Center Osaka Daimaru Umeda","transit"],["Rikimaru Umeda Osaka","walking"],["Umeda Sky Building","walking"]];
 const G="https://www.google.com/maps/";
-const route=k=>G+"dir/?api=1&destination="+encodeURIComponent(DAYS[di].stops[k].q)+"&travelmode="+DAYS[di].stops[k].m;
-const view=k=>G+"search/?api=1&query="+encodeURIComponent(DAYS[di].stops[k].q);
+const route=k=>G+"dir/?api=1&destination="+encodeURIComponent(DAYS[di].stops[k].q)+(DAYS[di].stops[k].pid?"&destination_place_id="+DAYS[di].stops[k].pid:"")+"&travelmode="+DAYS[di].stops[k].m;
+const view=k=>G+"search/?api=1&query="+encodeURIComponent(DAYS[di].stops[k].q)+(DAYS[di].stops[k].pid?"&query_place_id="+DAYS[di].stops[k].pid:"");
 DAYS[0].stops.forEach((s,i)=>{s.q=MQ[i][0];s.m=MQ[i][1]});const DEFAULT=JSON.stringify(DAYS);
 /* 일본어 회화 [말하는 사람, 일본어, 한글 독음, 뜻] */
 const JP=[
@@ -224,7 +486,7 @@ const DAY2={date:"2026-11-08",title:"11/8 (일) 해유관 · 덴덴타운 · 신
 {time:"21:20",dur:40,name:"토비타신치 (구경)",sum:"신세카이 인근 · 가볍게 지나가기",q:"Tobita Shinchi Osaka",m:"walking",det:["하루카스에서 이동해 가볍게 둘러보기.","!홍등가 분위기의 지역이에요. 사진 촬영은 하지 말고, 호객에는 응하지 말고 지나가기만 하세요.","늦은 시각이라 소지품에 주의하세요."],jp:[["나","結構です。","켓코-데스","괜찮습니다. (거절)"],["나","行きません。","이키마센","안 갈게요."],["나","駅はどちらですか？","에키와 도치라데스카","역은 어느 쪽인가요?"],["나","道に迷いました。","미치니 마요이마시타","길을 잃었어요."]]},
 {time:"22:15",dur:20,name:"숙소 복귀",sum:"미로호텔 도톤보리 · 약 30분",q:"Miro Hotel Dotonbori Osaka",m:"transit",det:["토비타신치에서 가까운 역으로 이동해 지하철로 복귀 (약 30분 예상).","늦었으면 택시도 선택지예요."],jp:[["나","この電車は難波に行きますか？","코노 덴샤와 난바니 이키마스카","이 전철은 난바에 가나요?"],["나","ホテルまでお願いします。","호테루마데 오네가이시마스","호텔까지 부탁합니다. (택시)"]]}
 ]};
-const L=(gm,mode,min,cost,steps,tt)=>({gm,mode,min,cost,steps,tt,sum:(gm==="walking"?"🚶 ":"🚇 ")+mode+" · "+min+" · "+cost});
+const L=(gm,mode,min,cost,steps,tt)=>({gm,mode,min,cost,steps,tt,sum:(gm==="walking"?"🚶 ":gm==="driving"?"🚕 ":"🚇 ")+mode+" · "+min+" · "+cost});
 const MT="지하철은 낮·저녁 시간대에 몇 분 간격으로 다니는 편이라 시각표를 맞추기보다 구글맵에서 가장 가까운 열차를 확인하세요.";
 const LEG1=[null,null,null,
 L("walking","도보","약 10~15분","무료",["난바역 14번 출구로 나오기 (12번 출구는 시장 구경 가능)","도톤보리 방향으로 도보 이동","미로호텔 도톤보리 도착"]),
@@ -317,7 +579,7 @@ D3[1].leg=L("walking","도보","약 10~15분","무료",["구로몬 시장에서 
 D3[2].leg=L("walking","도보 (또는 지하철)","약 15~20분","도보 무료 · 지하철 ¥190",["도톤보리에서 센니치마에 거리로 나와 동쪽(닛폰바시 방면)으로 걷기","구로몬 시장 안, 긴테쓰 닛폰바시역 8번 출구에서 도보 약 2분","걷기 싫다면 난바역 → 센니치마에선 → 닛폰바시역 1정거장 (¥190)"],[MT]);
 D3[3].link="https://www.hotpepper.jp/strJ003410671/";
 /* 야키토리 료보 위치 수정 (신사이바시) */
-const FIXV=1;
+const FIXV=4;
 function fixRb(days){days.forEach(d=>{const st=d.stops;const i=st.findIndex(x=>/료보/.test(x.name));if(i<1)return;
  const kai=st[i-1],rb=st[i],dn=st[i+1];
  Object.assign(rb,{name:"야키토리 료보 (yakitori ryoubou)",dur:105,sum:"점심 · 신사이바시 · 예약 12:00 (오마카세)",q:"Yakitori Ryoubou 1-10-17 Nishishinsaibashi Chuo-ku Osaka",m:"transit",
@@ -330,6 +592,26 @@ function fixRb(days){days.forEach(d=>{const st=d.stops;const i=st.findIndex(x=>/
  if(dn&&/덴덴/.test(dn.name)){dn.time="14:10";dn.dur=80;dn.det=(dn.det||[]).map(t=>/^오사카코에서/.test(t)?"신사이바시에서 미도스지선으로 난바까지 간 뒤 도보 약 10분이에요.":t)}
 })}
 fixRb(DAYS);
+/* 1일차: 저녁 가게 수정(이사리비) + 미나토 점심 제거 */
+const ISA_JP=[["나","予約した〇〇です。","요야쿠 시타 〇〇 데스","예약한 〇〇입니다."],["직원","20時のご予約ですね。こちらへどうぞ。","니지노 고요야쿠데스네. 고치라에 도우조","8시 예약이시군요. 이쪽으로 오세요."],["나","おすすめの炉端焼きは何ですか？","오스스메노 로바타야키와 난데스카","추천 로바타야키가 뭔가요?"],["나","生ビールをください。","나마비-루오 구다사이","생맥주 주세요."],["나","お会計をお願いします。","오카이케이오 오네가이시마스","계산해 주세요."]];
+function fixIsa(days){days.forEach(d=>{const st=d.stops;
+ const m=st.findIndex(x=>/미나토/.test(x.name));
+ if(m>0){const h=st[m-1];st.splice(m,1);
+  Object.assign(h,{dur:95,sum:"짐 맡기고 쉬기 · 점심은 미정",det:["호텔 도착 예상 시각 오후 1시~1시 30분.","체크인 전이니 짐만 맡기고 쉬어요. 점심은 아직 정하지 않았어요. 비행기가 연착되면 이 시간이 여유가 돼요.","구로몬 시장(도보 약 10분)에서 길거리 음식으로 해결해도 돼요.","!돈카츠 미나토(TableCheck) 예약은 취소하세요. 연착 위험 때문에 가지 않기로 했어요."]});
+  h.leg=L("walking","도보","약 10분","무료",["호텔에서 닛폰바시역 방면(구로몬 시장)으로 도보 이동","점심을 시장 먹거리로 해결하면 15:00 도착이 딱 맞아요"]);}
+ const r=st.findIndex(x=>/리키마루/.test(x.name));
+ if(r>0){const pk=st[r-1];
+  Object.assign(st[r],{name:"리키마루 로바타야키 이사리비 (力丸 炉ばた焼 漁火)",dur:70,sum:"저녁 · 로바타야키 · 예약 20:00",q:"力丸 炉ばた焼 漁火 梅田店 大阪市北区芝田1-5-12",m:"walking",
+   det:["한큐 우메다역에서 도보 약 2분, 비고야 빌딩 지하 1층에 있어요.","포켓몬센터(다이마루 우메다)에서 도보 약 8~10분이에요 (제 추정). 20:00 예약이니 19:50까지 도착하세요.","로바타야키는 숯불 앞에서 해산물·고기·채소를 구워 주는 방식이에요.","!정보 출처: EPARK 가게 페이지. 메뉴·가격은 방문 전에 예약 확인서와 공식 사이트로 확인하세요."],
+   info:[["예약","20:00 예약 완료"],["주소","大阪市北区芝田1-5-12 備後屋ビルB1F"],["가는 길","한큐 우메다역 도보 약 2분 (JR 오사카역 약 3분)"],["영업","16:00~23:00 (L.O. 22:30)"],["가격","평균 약 ¥2,700 (EPARK 기준, 확인 필요)"],["전화","06-6373-2969"]],
+   link:"https://www.rikimarugroup.com/brands/isaribi/shops/umeda/",jp:ISA_JP});
+  pk.leg=L("walking","도보","약 8~10분 (추정)","무료",["다이마루 우메다에서 한큐 우메다역·JR 오사카역 방면으로 이동","한큐 우메다역 근처 비고야 빌딩 지하 1층 이사리비로 이동","!20:00 예약이에요. 포켓몬센터는 19:40쯤 나서는 게 안전해요."]);
+  st[r].leg=L("walking","도보","약 15~20분","무료",["이사리비에서 JR 오사카역 북쪽 방면으로 이동","우메다 스카이빌딩까지 도보 약 15~20분","!공중정원 최종 입장은 22:00예요."]);
+  const sk=st[r+1];if(sk&&/스카이/.test(sk.name)&&sk.det)sk.det=sk.det.map(t=>/^리키마루에서/.test(t)?"이사리비에서 도보 약 15~20분.":t)}
+})}
+fixIsa(DAYS);
+function fixPin(days){days.forEach(d=>d.stops.forEach(s=>{if(/간사이공항 도착|크루즈|이사리비|해유관|료보|면세 환급|출국 수속|피치항공 출발/.test(s.name))s.pin=true}))}
+fixPin(DAYS);
 const DEFAULT2=JSON.stringify(DAYS);
 const T=s=>{const[a,b]=s.split(":").map(Number);return a*60+b};
 const $=id=>document.getElementById(id);
@@ -339,18 +621,23 @@ const today=()=>{const d=new Date();return d.getFullYear()+"-"+pad(d.getMonth()+
 let di=Math.max(0,DAYS.findIndex(d=>d.date===today())),sim=null;
 const nowMin=()=>{if(sim!==null)return sim;const d=new Date();return d.getHours()*60+d.getMinutes()};
 const isLive=()=>sim!==null||DAYS[di].date===today();
+const durTxt=m=>m>=60?Math.floor(m/60)+"시간"+(m%60?" "+m%60+"분":""):m+"분";
+function stopsHTML(d){const fl=d.stops.map((s,i)=>RM.on?null:legFlag(d.stops,i));return d.stops.map((s,i)=>{const pf=i>0?fl[i-1]:null;return `<div class="stop${s.pin?" pn":""}${pf&&pf.k==="ov"?" ov":""}" data-i="${i}"><div class="time">${s.time}</div><div class="dot">${icon(s.name)}</div><div class="card"><h3>${s.name}</h3><p>${s.sum}</p>${s.dur>0?`<span class="stm">⏱ ${durTxt(s.dur)} · ${s.time}–${fmt(T(s.time)+s.dur)}</span>`:""}${RM.on?"":depLine(d.stops,i)}<span class="mv">${s.pin?"":'<b data-d="-1">▲</b><b data-d="1">▼</b>'}<b data-pin="1" class="${s.pin?"on":""}" aria-label="${s.pin?"고정 해제":"시간 고정"}">📌</b><b data-del="1" aria-label="삭제">🗑</b></span></div></div>`+(s.leg&&i<d.stops.length-1?`<div class="leg${fl[i]?" "+fl[i].k:""}" data-l="${i}"><span>${fl[i]?"⚠️ "+fl[i].t+" · ":""}${s.leg.sum}</span><i>›</i></div>`:"")}).join("")}
 function build(){
+ if(TM.on&&TM.di!=null)di=TM.di;
  buildHome();
  const d=DAYS[di];
  $("tabs").innerHTML=DAYS.map((x,i)=>`<button class="tab" aria-selected="${i===di}" data-i="${i}">DAY ${i+1}</button>`).join("");
  const dd=Math.ceil((new Date(d.date+"T00:00:00")-new Date(today()+"T00:00:00"))/864e5);
- $("ttl").textContent=d.title+(dd>0?" · D-"+dd:"");$("tip").textContent=d.note||"";
- $("stops").innerHTML=d.stops.map((s,i)=>`<div class="stop" data-i="${i}"><div class="time">${s.time}</div><div class="dot">${icon(s.name)}</div><div class="card"><h3>${s.name}</h3><p>${s.sum}</p></div></div>`+(s.leg&&i<d.stops.length-1?`<div class="leg" data-l="${i}"><span>${s.leg.sum}</span><i>›</i></div>`:"")).join("");
+ if(window.__hzLab)window.__hzLab();$("ttl").textContent=d.title+(dd>0?" · D-"+dd:"");$("tip").textContent=d.note||"";
+ const fl=d.stops.map((s,i)=>RM.on?null:legFlag(d.stops,i));
+ $("stops").innerHTML=stopsHTML(d);if(PCV)buildPC();vtCount();
  update(true);
+ if(TM.on&&!TM.entering){const y=scrollY;document.body.classList.add("tmnt");tmLayout();scrollTo(0,y);requestAnimationFrame(()=>requestAnimationFrame(()=>document.body.classList.remove("tmnt")))}
 }
 function update(instant){if($("app").hidden)return;
  const d=DAYS[di],st=d.stops,now=nowMin(),live=isLive();
- const els=[...document.querySelectorAll(".stop")],tl=$("tl").getBoundingClientRect();
+ const els=[...document.querySelectorAll("#stops .stop")],tl=$("tl").getBoundingClientRect();
  const ys=els.map(e=>{const r=e.querySelector(".dot").getBoundingClientRect();return r.top+r.height/2-tl.top});
  const S=st.map(s=>T(s.time)),E=st.map((s,i)=>S[i]+s.dur);
  let y=ys[0],cur=-1,next=0,msg;
@@ -360,64 +647,897 @@ function update(instant){if($("app").hidden)return;
   let i=0;while(i<st.length-1&&now>=S[i+1])i++;
   if(now<=E[i]||i===st.length-1){cur=i;y=ys[i];const n=st[i+1];
    msg=["지금 여기 · "+st[i].name,n?"다음 "+n.name+" · "+n.time:"마지막 정류장"];
+   {const dp=departOf(st,i);if(n&&dp!=null&&now>=dp-10)msg[1]=(now>=dp?"지금 출발하세요":"곧 출발할 시간이에요")+" · "+fmt(dp)+" 출발 추천 → "+n.name}
    if(i===st.length-1&&now>E[i]){cur=-2;msg=["오늘 일정 끝","수고했어요!"]}}
   else{const f=(now-E[i])/(S[i+1]-E[i]);y=ys[i]+(ys[i+1]-ys[i])*f;next=i+1;
    msg=["이동 중 → "+st[i+1].name,(S[i+1]-now)+"분 후 도착 · "+fmt(S[i+1])]}
  }
  els.forEach((e,i)=>{e.classList.toggle("past",live&&(cur===-2||(cur>=0?i<cur:i<next)));e.classList.toggle("here",live&&cur===i)});
  const tg=cur>=0?Math.min(cur+1,st.length-1):cur===-2?-1:next;
- $("status").innerHTML=`<b>${msg[0]}</b><span>${msg[1]}</span>`+(tg>=0&&st[tg].q?`<br><a class="go" target="_blank" rel="noopener" href="${route(tg)}">📍 ${st[tg].name} 길찾기</a>`:"");
+ $("status").innerHTML=`<div class="sh"><div class="s1"><b>${msg[0]}</b><span>${msg[1]}</span></div><i class="chev">⌃</i></div><div class="sb"><div>`+(tg>=0&&st[tg].q?`<a class="go" target="_blank" rel="noopener" href="${route(tg)}">📍 ${st[tg].name} 길찾기</a>`:"")+`</div></div>`;
  const bus=$("bus"),fill=$("fill");
  bus.classList.toggle("hide",!live);bus.classList.toggle("walk",live&&cur===-1&&now>=S[0]);
  if(instant)bus.style.transition=fill.style.transition="none";
  bus.style.top=y+"px";fill.style.height=(live?y:0)+"px";
  if(instant)requestAnimationFrame(()=>{bus.style.transition=fill.style.transition=""});
- if(live&&cur===-1)bus.scrollIntoView({block:"center",behavior:instant?"auto":"smooth"});
+ if(live&&cur===-1&&!RM.on&&!TM.on)bus.scrollIntoView({block:"center",behavior:instant?"auto":"smooth"});
 }
-$("stops").onclick=e=>{const lg=e.target.closest(".leg");if(lg){openLeg(+lg.dataset.l);return}const s=e.target.closest(".stop");if(!s)return;const k=+s.dataset.i,x=DAYS[di].stops[k];
- $("sheet").innerHTML=`<div class="tm">${x.time} 도착 · 약 ${x.dur}분</div><h2>${x.name}</h2><ul>${x.det.map(t=>t[0]==="!"?`<li class="warn">⚠️ ${t.slice(1)}</li>`:`<li>${t}</li>`).join("")}</ul>${stopExtra(x)}${x.q?`<a class="go" target="_blank" rel="noopener" href="${route(k)}">🧭 내 위치에서 길찾기</a>${k>0&&DAYS[di].stops[k-1].q?`<a class="go alt" target="_blank" rel="noopener" href="${G+"dir/?api=1&origin="+encodeURIComponent(DAYS[di].stops[k-1].q)+"&destination="+encodeURIComponent(x.q)+"&travelmode="+(x.m||"transit")}">📍 이전 장소(${DAYS[di].stops[k-1].name.split(" (")[0]})에서 길찾기</a>`:""}<a class="go alt" target="_blank" rel="noopener" href="${view(k)}">지도에서 위치 보기</a>`:""}<button class="sm" id="ed">✏️ 수정</button><button class="sm" id="dl">⏱ 이 일정부터 10분 미루기</button><button id="cl">닫기</button>`;
+(function(){let c=true;try{const v=localStorage.getItem("stcol");if(v!==null)c=v==="1"}catch(e){}
+ const s=$("status");s.classList.toggle("col",c);
+ s.addEventListener("click",e=>{if(e.target.closest("a"))return;const on=s.classList.toggle("col");try{localStorage.setItem("stcol",on?"1":"0")}catch(_){}})})();
+$("stops").onclick=e=>{if(TM.on){const b=e.target.closest(".tmd button");if(!b||TM.busy)return;const i=+b.closest(".stop").dataset.i,s=DAYS[di].stops[i];
+ if(b.dataset.pn){s.pin=!s.pin;tmRe();toast(s.pin?"고정했어요. 이 일정은 끌 수 없어요.":"고정을 풀었어요.");return}
+ if(b.dataset.del){tmDel(i);return}
+ if(b.dataset.mv){tmMove(i,+b.dataset.mv);return}
+ if(b.dataset.st){tmStash(i,false);return}s.dur=Math.max(0,Math.min(720,s.dur+(+b.dataset.dm)));tmFlags();tmLayout();return}if(RM.on){const m=e.target.closest(".mv b");if(m){const s=e.target.closest(".stop");const i=+s.dataset.i;if(m.dataset.del)rmDelete(i);else if(m.dataset.pin){const x=DAYS[di].stops[i];x.pin=!x.pin;build();toast(x.pin?"고정했어요. 이 일정 시각은 밀리지 않아요.":"고정을 풀었어요.")}else mvStop(i,i+(+m.dataset.d))}return}const lg=e.target.closest(".leg");if(lg){openLeg(+lg.dataset.l);return}const s=e.target.closest(".stop");if(!s)return;openStop(+s.dataset.i)};
+function openStop(k){const x=DAYS[di].stops[k];
+ $("sheet").innerHTML=`<div class="tm">${x.time} 도착 · 약 ${x.dur}분</div><h2>${x.name}</h2><ul>${x.det.map(t=>t[0]==="!"?`<li class="warn">⚠️ ${t.slice(1)}</li>`:`<li>${t}</li>`).join("")}</ul>${stopExtra(x)}${x.q?mapDetails("지도 미리보기",placeSrc(x)):""}${x.q?`<a class="go" target="_blank" rel="noopener" href="${route(k)}">🧭 내 위치에서 길찾기</a>${k>0&&DAYS[di].stops[k-1].q?`<a class="go alt" target="_blank" rel="noopener" href="${G+"dir/?api=1&origin="+encodeURIComponent(DAYS[di].stops[k-1].q)+(DAYS[di].stops[k-1].pid?"&origin_place_id="+DAYS[di].stops[k-1].pid:"")+"&destination="+encodeURIComponent(x.q)+(x.pid?"&destination_place_id="+x.pid:"")+"&travelmode="+(x.m||"transit")}">📍 이전 장소(${DAYS[di].stops[k-1].name.split(" (")[0]})에서 길찾기</a>`:""}<a class="go alt" target="_blank" rel="noopener" href="${view(k)}">지도에서 위치 보기</a>`:""}<div class="brow"><button class="sm" id="pn">${x.pin?"📌 고정 풀기":"📌 시간 고정"}</button><button class="sm" id="ed">✏️ 수정</button></div><button class="sm" id="dl">⏱ 이 일정부터 10분 미루기</button><button id="cl">닫기</button>`;
  $("bd").classList.add("on");$("cl").onclick=()=>$("bd").classList.remove("on");
+ $("pn").onclick=()=>{x.pin=!x.pin;save();build();$("pn").textContent=x.pin?"📌 고정 풀기":"📌 시간 고정";toast(x.pin?"고정했어요. 이 일정 시각은 밀리지 않아요.":"고정을 풀었어요.")};
  $("ed").onclick=()=>form(k);
- $("dl").onclick=()=>{const st=DAYS[di].stops;for(let i=k;i<st.length;i++)st[i].time=fmt(Math.min(1439,T(st[i].time)+10));commit()}};
-$("bd").onclick=e=>{if(e.target.id==="bd")$("bd").classList.remove("on")};
+ $("dl").onclick=async()=>{const st=DAYS[di].stops;if(st[k].pin){toast("📌 고정된 일정은 미룰 수 없어요. 고정을 풀어 주세요.");return}
+  const pv=st[k-1],sh=planShift(st,k,10,pv?T(pv.time)+pv.dur:0,pv?legMins(pv.leg):0);
+  if(sh.short>0&&!await ask(`📌 고정 일정(${sh.pin.time} ${sh.pin.name.split(" (")[0]})까지 ${sh.short}분 모자라요. 그래도 미룰까요?`))return;
+  sh.mv.forEach((m,q)=>{st[k+q].time=fmt(m)});commit(true)}}
+$("bd").onclick=e=>{if(e.target.id==="bd"&&!RM.review)$("bd").classList.remove("on")};
 $("simbtn").onclick=()=>{const on=$("sim").classList.toggle("on");
  if(on){sim=Math.min(1380,Math.max(420,nowMin()));$("slider").value=sim}else sim=null;
  $("simbtn").textContent=on?"실시간으로":"시간 미리보기";
  $("simlabel").textContent=on?"미리보기 "+fmt(sim):"실시간 위치";update(true)};
 $("slider").oninput=e=>{sim=+e.target.value;$("simlabel").textContent="미리보기 "+fmt(sim);update()};
 let db=null;const KEY="trip-plan-v2",VER=5;
-function apply(j){try{const o=JSON.parse(j);if(o.v!==VER)return;const a=o.d;if((o.f||0)<FIXV)fixRb(a);if(Array.isArray(a)&&a[0]&&a[0].stops){const D=JSON.parse(DEFAULT2).flatMap(z=>z.stops);a.forEach(d=>d.stops.forEach(t=>{if(!t.jp||t.link===undefined){const m=D.find(z=>z.name===t.name);if(m){if(!t.jp)t.jp=m.jp;if(t.link===undefined&&m.link)t.link=m.link}}}));DAYS.length=0;a.forEach(x=>DAYS.push(x))}}catch(e){}}
-async function save(){const j=JSON.stringify({v:VER,f:FIXV,d:DAYS});try{localStorage.setItem(KEY,j)}catch(e){}try{if(db)await db.doc("trip/plan").set({json:j})}catch(e){}}
-function commit(){DAYS[di].stops.sort((a,b)=>T(a.time)-T(b.time));save();$("bd").classList.remove("on");build()}
-function openLeg(i){const st=DAYS[di].stops,a=st[i],b=st[i+1],l=a.leg;if(!l||!b)return;
- const g=G+"dir/?api=1&origin="+encodeURIComponent(a.q)+"&destination="+encodeURIComponent(b.q)+"&travelmode="+(l.gm||"transit");
- $("sheet").innerHTML=`<div class="tm">이동 · ${a.time} → ${b.time}</div><h2>${a.name} → ${b.name}</h2><div class="info"><div><b>수단</b><span>${l.mode}</span></div><div><b>시간</b><span>${l.min}</span></div><div><b>비용</b><span>${l.cost}</span></div></div><h3 class="jh">🧭 가는 방법</h3><ol>${l.steps.map(t=>t[0]==="!"?`<li class="warn">⚠️ ${t.slice(1)}</li>`:`<li>${t}</li>`).join("")}</ol>${l.tt?`<h3 class="jh">🕒 시간표 참고</h3><ul>${l.tt.map(t=>`<li>${t}</li>`).join("")}</ul>`:""}<a class="go" target="_blank" rel="noopener" href="${g}">🗺️ 구글맵에서 경로 보기</a><button id="cl">닫기</button>`;
- $("bd").classList.add("on");$("cl").onclick=()=>$("bd").classList.remove("on")}
+function fixDup(a){try{if(!Array.isArray(a))return;const key=d=>JSON.stringify((d.stops||[]).map(s=>s.name)),D=JSON.parse(DEFAULT2);
+ for(let i=0;i<a.length;i++)for(let k=0;k<a.length;k++)if(i!==k&&a[i].stops&&a[i].stops.length&&key(a[i])===key(a[k])&&D[i]&&key(D[i])!==key(a[i])&&key(D[k])===key(a[k])){a[i].stops=JSON.parse(JSON.stringify(D[i].stops))}}catch(e){}}
+function apply(j){try{const o=JSON.parse(j);if(!(o.v>=1&&o.v<=VER))return;if(Array.isArray(o.vt))VAULT=o.vt;const a=o.d;{const f=o.f||0;if(f<1)fixRb(a);if(f<2)fixIsa(a);if(f<3)fixPin(a);if(f<4)fixDup(a)}if(Array.isArray(a))a.forEach(d=>(d&&d.stops||[]).forEach(s=>{if(s.leg&&/대중교통 못 찾음/.test(s.leg.mode||""))s.leg=transitEst((s.leg.mins||+((String(s.leg.min).match(/\d+/)||[60])[0]))/12.5)}));if(Array.isArray(a)&&a[0]&&a[0].stops){const D=JSON.parse(DEFAULT2).flatMap(z=>z.stops);a.forEach(d=>d.stops.forEach(t=>{if(!t.jp||t.link===undefined){const m=D.find(z=>z.name===t.name);if(m){if(!t.jp)t.jp=m.jp;if(t.link===undefined&&m.link)t.link=m.link}}}));DAYS.length=0;a.forEach(x=>DAYS.push(x))}}catch(e){}}
+var SYNC={st:"local",at:0};
+function syncShow(){const e=$("syb");if(!e)return;const t=SYNC.at?new Date(SYNC.at).toLocaleTimeString("ko-KR",{hour:"2-digit",minute:"2-digit"}):"";
+ e.className="syb "+SYNC.st;e.textContent=SYNC.st==="ok"?"☁ 클라우드에 저장됨 "+t+" · 모든 기기에 공유돼요":SYNC.st==="err"?"⚠ 클라우드 저장 실패 · 이 기기에만 저장됐어요":SYNC.st==="load"?"☁ 클라우드에서 불러오는 중…":"이 기기에만 저장돼요 (내려받은 파일·미리보기에서는 다른 기기와 공유되지 않아요)"}
+async function save(){const j=JSON.stringify({v:VER,f:FIXV,d:DAYS,vt:VAULT});try{localStorage.setItem(KEY,j)}catch(e){}try{if(db){await db.doc("trip/plan").set({json:j});SYNC={st:"ok",at:Date.now(),j}}}catch(e){SYNC={st:"err",at:0}}syncShow()}
+function commit(ns){if(!ns)DAYS[di].stops.sort((a,b)=>T(a.time)-T(b.time));save();$("bd").classList.remove("on");build()}
+function openLeg(i){const st=DAYS[di].stops,a=st[i],b=st[i+1],l=a.leg;if(!l||!b)return;const fg=legFlag(st,i);
+ const g=G+"dir/?api=1&origin="+encodeURIComponent(a.q)+(a.pid?"&origin_place_id="+a.pid:"")+"&destination="+encodeURIComponent(b.q)+(b.pid?"&destination_place_id="+b.pid:"")+"&travelmode="+(l.gm||"transit");
+ $("sheet").innerHTML=`<div class="tm">이동 · ${a.time} → ${b.time}</div><h2>${a.name} → ${b.name}</h2>${fg?`<p class="gerr">⚠️ ${fg.t}. 시간을 조정하거나 이동 수단을 확인하세요.</p>`:""}<div class="info"><div><b>수단</b><span>${l.mode}</span></div><div><b>시간</b><span>${l.min}</span></div><div><b>비용</b><span>${l.cost}</span></div></div><h3 class="jh">🧭 가는 방법</h3><ol>${l.steps.map(t=>t[0]==="!"?`<li class="warn">⚠️ ${t.slice(1)}</li>`:`<li>${t}</li>`).join("")}</ol>${l.tt?`<h3 class="jh">🕒 시간표 참고</h3><ul>${l.tt.map(t=>`<li>${t}</li>`).join("")}</ul>`:""}${mapDetails("이동 경로 지도 미리보기",dirSrc(a,b,l.gm))}${gk.get()?`<details class="mapd fdd" data-i="${i}"><summary>🍴 경로 주변 맛집</summary><div class="fdb"></div></details>`:`<a class="go alt" target="_blank" rel="noopener" href="${G}search/?api=1&query=${encodeURIComponent("restaurants near "+(b.q||b.name))}">🍴 도착지 근처 맛집 (구글맵)</a>`}<div class="taxi" id="txb">${l.gm==="driving"?'<p class="gn">이 구간은 택시로 이동해요.</p><button class="sm" id="tx_back">대중교통·도보로 되돌리기</button>':`<h3 class="jh">🚕 택시로 가면</h3><p class="gn" id="tx_est">${gk.get()?"요금 계산 중…":"구글 키를 넣으면 택시 예상 시간·요금을 계산해요."}</p>${gk.get()&&!TM.on&&!RM.on?'<button class="sm" id="tx_go" disabled>이 구간 택시로 이동하기</button>':""}`}</div><a class="go" target="_blank" rel="noopener" href="${g}">🗺️ 구글맵에서 경로 보기</a>${gk.get()&&!TM.on&&!RM.on?'<button class="sm" id="lg_re">이 구간 다시 계산</button><button class="sm" id="lg_all">이 날 이동 전체 다시 계산</button>':""}<button id="cl">닫기</button>`;
+ $("bd").classList.add("on");$("cl").onclick=()=>$("bd").classList.remove("on");
+ taxiFill(i);const tb=$("tx_back");if(tb)tb.onclick=()=>{if(gk.get())recalcLegs([i]);else{a.leg=staleLeg();save();build();$("bd").classList.remove("on")}};
+ const re=$("lg_re");if(re){re.onclick=()=>recalcLegs([i]);$("lg_all").onclick=()=>recalcLegs(st.map((_,k)=>k).slice(0,-1))}}
+/* 택시: 오사카 상한 운임 기준 (초승 1.2km ¥600, 이후 231m마다 ¥100, 저속 시 1분25초마다 ¥100, 심야 22~5시 2할 증) */
+function taxiFare(m,sec,dep){let f=600+Math.ceil(Math.max(0,m-1200)/231)*100;const free=m/(25/3.6),slow=Math.max(0,sec-free);f+=Math.floor(slow/85)*100;
+ const hr=Math.floor(dep/60)%24,night=hr>=22||hr<5;if(night)f=Math.round(f*1.2/10)*10;const hi=Math.round(f*1.15/10)*10;return{lo:f,hi,night}}
+async function taxiRoute(a,b,date,dep){const body={origin:wpOf(a),destination:wpOf(b),travelMode:"DRIVE",languageCode:"ko",units:"METRIC",routingPreference:"TRAFFIC_AWARE"};
+ const d=utcDep(date,dep);if(d&&new Date(d)>Date.now()+6e4)body.departureTime=d;
+ let j;try{j=await gfetch("https://routes.googleapis.com/directions/v2:computeRoutes",body,"routes.duration,routes.distanceMeters")}catch(e){delete body.departureTime;body.routingPreference="TRAFFIC_UNAWARE";j=await gfetch("https://routes.googleapis.com/directions/v2:computeRoutes",body,"routes.duration,routes.distanceMeters")}
+ const r=(j.routes||[])[0];if(!r)throw new Error("차로 가는 경로를 찾지 못했어요");return{sec:secs(r.duration),m:r.distanceMeters||0}}
+async function taxiFill(i){const d=DAYS[di],st=d.stops,a=st[i],b=st[i+1],box=$("tx_est");if(!box||!a||!b||!gk.get())return;const dep=T(a.time)+a.dur;
+ try{const r=await taxiRoute(a,b,d.date,dep);if($("tx_est")!==box)return;const mins=Math.max(1,Math.round(r.sec/60)),F=taxiFare(r.m,r.sec,dep);
+  box.innerHTML=`약 ${mins}분 · ${Math.round(r.m/100)/10}km · <b style="color:#f08c00">약 ¥${F.lo.toLocaleString()}~${F.hi.toLocaleString()}</b>${F.night?" (심야 할증 포함)":""}<br><small>지금 경로: ${a.leg.min} · ${a.leg.cost}</small>`;
+  const go=$("tx_go");if(go){go.disabled=false;go.onclick=()=>{a.leg=Object.assign(L("driving","택시",`약 ${mins}분`,`약 ¥${F.lo.toLocaleString()}~${F.hi.toLocaleString()}${F.night?" (심야)":""}`,[`택시로 이동해요 (약 ${mins}분, ${Math.round(r.m/100)/10}km)`,`예상 요금 ¥${F.lo.toLocaleString()}~${F.hi.toLocaleString()} · 오사카 택시 상한 운임 기준 추정${F.night?" · 22시~5시 심야 2할 할증 포함":""}`,"!회사·차종·막힘에 따라 달라요. 고속도로를 타면 통행료가 따로 붙어요.","택시 승강장이나 GO·DiDi 같은 배차 앱으로 부를 수 있어요."]),{mins,src:"taxi"});save();build();openLeg(i);toast("이 구간을 택시로 바꿨어요.")}}}
+ catch(e){if($("tx_est")===box)box.textContent="택시 경로를 계산하지 못했어요: "+e.message}}
+async function recalcLegs(idx){const d=DAYS[di],st=d.stops,dd=di;$("bd").classList.remove("on");let ok=0,fail=0,msg="";
+ for(let n=0;n<idx.length;n++){const i=idx[n],a=st[i],b=st[i+1];if(!a||!b||!(a.q||a.pid)||!(b.q||b.pid)){fail++;continue}toast("이동 다시 계산 중 ("+(n+1)+"/"+idx.length+")…",20000);
+  try{a.leg=await calcLeg(wpOf(a),wpOf(b),d.date,T(a.time)+a.dur);ok++}catch(e){fail++;msg=msg||e.message}}
+ save();if(di===dd)build();toast("다시 계산했어요: "+ok+"곳"+(fail?" · 실패 "+fail+"곳"+(msg?" ("+msg+")":""):""),6000)}
 function form(k){const st=DAYS[di].stops,x=k>=0?st[k]:{time:"12:00",dur:30,name:"",sum:"",det:[],q:"",m:"walking"};
- $("sheet").innerHTML=`<h2>${k>=0?"일정 수정":"일정 추가"}</h2><label>시간<input id="f_t" type="time"></label><label>머무는 시간(분)<input id="f_d" type="number" min="0"></label><label>장소<input id="f_n"></label><label>한 줄 요약<input id="f_s"></label><label>상세 (줄마다 한 항목, 주의는 맨 앞에 !)<textarea id="f_x" rows="5"></textarea></label><label>구글맵 검색어<input id="f_q"></label><label>예약·공식 사이트 링크<input id="f_l" type="url" placeholder="https://"></label><label>이동 수단<select id="f_m"><option value="walking">도보</option><option value="transit">대중교통</option><option value="driving">차량</option></select></label><button id="sv">저장</button>${k>=0?'<button class="sm" id="rm">삭제</button>':""}<button class="sm" id="cn">취소</button>`;
+ $("sheet").innerHTML=`<h2>${k>=0?"일정 수정":"일정 추가"}</h2><label>시간<input id="f_t" type="time"></label><label>머무는 시간(분)<input id="f_d" type="number" min="0"></label><label>장소<input id="f_n"></label><label>한 줄 요약<input id="f_s"></label><label>상세 (줄마다 한 항목, 주의는 맨 앞에 !)<textarea id="f_x" rows="5"></textarea></label><label>구글맵 검색어<input id="f_q"></label><label>예약·공식 사이트 링크<input id="f_l" type="url" placeholder="https://"></label><label>이동 수단<select id="f_m"><option value="walking">도보</option><option value="transit">대중교통</option><option value="driving">차량</option></select></label><button id="sv">저장</button>${k>=0?'<button class="sm" id="rm">삭제</button>':""}<button class="sm" id="cn">취소</button>${k>=0?'<button class="sm" id="gf">🔎 구글에서 장소 다시 찾기</button>':""}`;
+ if(k>=0)$("gf").onclick=()=>openSearch(k);
  $("f_t").value=x.time;$("f_d").value=x.dur;$("f_n").value=x.name;$("f_s").value=x.sum;$("f_x").value=x.det.join("\n");$("f_q").value=x.q||"";$("f_l").value=x.link||"";$("f_m").value=x.m||"walking";
  $("bd").classList.add("on");$("cn").onclick=()=>$("bd").classList.remove("on");
- $("sv").onclick=()=>{if(!$("f_n").value.trim())return;const n={time:$("f_t").value||"12:00",dur:+$("f_d").value||0,name:$("f_n").value.trim(),sum:$("f_s").value.trim(),det:$("f_x").value.split("\n").map(t=>t.trim()).filter(Boolean),q:$("f_q").value.trim()||$("f_n").value.trim(),m:$("f_m").value,jp:x.jp,info:x.info,link:$("f_l").value.trim()||undefined,leg:x.leg};if(k>=0)st[k]=n;else st.push(n);commit()};
- if(k>=0)$("rm").onclick=()=>{if(confirm("이 일정을 삭제할까요?")){st.splice(k,1);commit()}}}
-$("tabs").onclick=e=>{const b=e.target.closest(".tab");if(!b)return;di=+b.dataset.i;build();scrollTo(0,0)};
-$("add").onclick=()=>form(-1);
-$("rst").onclick=()=>{if(confirm("수정한 내용이 모두 사라지고 처음 일정으로 돌아갑니다.")){apply(JSON.stringify({v:VER,d:JSON.parse(DEFAULT2)}));save();build()}};
-try{const j=localStorage.getItem(KEY);if(j)apply(j)}catch(e){}
-(async()=>{try{const c=window.claude&&await window.claude.use("db");if(c){db=c;const sn=await db.doc("trip/plan").get();if(sn.exists&&sn.data().json){apply(sn.data().json);build()}else save()}}catch(e){}})();
+ $("sv").onclick=async()=>{if(!$("f_n").value.trim())return;const n={time:$("f_t").value||"12:00",dur:+$("f_d").value||0,name:$("f_n").value.trim(),sum:$("f_s").value.trim(),det:$("f_x").value.split("\n").map(t=>t.trim()).filter(Boolean),q:$("f_q").value.trim()||$("f_n").value.trim(),m:$("f_m").value,jp:x.jp,pin:x.pin,info:x.info,link:$("f_l").value.trim()||undefined,leg:x.leg};if(k>=0&&x.pin&&n.time!==x.time&&!await ask("📌 고정된 일정이에요. 시간을 바꿀까요?"))return;if(k>=0)st[k]=n;else{n.pid=undefined;st.push(n)}if(k<0){st.sort((a,b)=>T(a.time)-T(b.time));const j=st.indexOf(n);if(j>0)st[j-1].leg=staleLeg();if(j<st.length-1)n.leg=staleLeg()}if(k>=0&&x.pid&&n.q===x.q)n.pid=x.pid;commit()};
+ if(k>=0)$("rm").onclick=async()=>{if(await ask("이 일정을 삭제할까요?")){const pv=st[k-1],nx=st[k+1];st.splice(k,1);if(pv&&nx)pv.leg=staleLeg();commit();relink(pv,nx,DAYS[di].date)}}}
+$("tabs").onclick=e=>{const b=e.target.closest(".tab");if(!b)return;if(RM.on){toast("순서 바꾸기 중이에요. 확인이나 취소를 먼저 눌러 주세요.");return}if(TM.on){toast("일정 수정 중이에요. 확인이나 취소를 먼저 눌러 주세요.");return}di=+b.dataset.i;build();const s=$("stops");s.classList.remove("sw");void s.offsetWidth;s.classList.add("sw");scrollTo(0,0)};
 
-const ICONS=[[/면세|환급/,"🛃"],[/셔틀/,"🚌"],[/라피트|난카이/,"🚆"],[/공항역|난바역/,"🚉"],[/출국|출발 ✈|피치|공항/,"✈️"],[/호텔|숙소/,"🏨"],[/돈카츠/,"🍱"],[/초밥|스시/,"🍣"],[/야키니쿠|리키마루/,"🥩"],[/야키토리|쿠시카츠|다루마/,"🍢"],[/마쓰야/,"🍚"],[/시장/,"🐟"],[/오사카성/,"🏯"],[/피자/,"🍕"],[/크루즈/,"🚤"],[/포켓몬/,"⚡"],[/스카이빌딩|전망대|하루카스/,"🌃"],[/해유관/,"🐋"],[/덴덴/,"🎮"],[/@home|메이드/,"🎀"],[/나이브스/,"🔪"],[/토비타/,"🏮"],[/돈키호테/,"🛍️"],[/호젠지/,"⛩️"]];
+$("tvb").onclick=()=>tmEnter();$("pcvt").onclick=()=>tmVault(null,0);$("vtb").onclick=()=>{if(TM.on)tmVault(null,0)};$("rmc").onclick=()=>rmCancel();$("rmo").onclick=()=>rmConfirm();$("aib").onclick=()=>aiRec();$("expb").onclick=$("expb2").onclick=()=>exportOpen();$("impb").onclick=$("impb2").onclick=()=>importOpen();
+/* 확인 창 (Claude 화면에서는 브라우저 기본 확인 창이 막혀 있어서 직접 그려요) */
+function ask(msg,ok){return new Promise(res=>{const o=document.createElement("div");o.className="askd";
+ o.innerHTML='<div class="askb"><p></p><div class="askr"><button type="button" class="n">취소</button><button type="button" class="y"></button></div></div>';
+ o.querySelector("p").textContent=msg;o.querySelector(".y").textContent=ok||"확인";
+ const done=v=>{o.remove();document.removeEventListener("keydown",kd,true);res(v)},kd=e=>{if(e.key==="Escape"){e.stopPropagation();done(false)}if(e.key==="Enter"){e.preventDefault();done(true)}};
+ o.querySelector(".n").onclick=()=>done(false);o.querySelector(".y").onclick=()=>done(true);o.onclick=e=>{if(e.target===o)done(false)};
+ document.addEventListener("keydown",kd,true);document.body.appendChild(o);o.querySelector(".y").focus()})}
+function planJson(){return JSON.stringify({app:"osaka-trip",v:VER,f:FIXV,exported:new Date().toISOString(),d:DAYS,vt:VAULT},null,1)}
+function exportOpen(){if(TM.on||RM.on){toast("일정 수정 중에는 내보낼 수 없어요. 확인이나 취소를 먼저 눌러 주세요.");return}
+ const j=planJson(),n=DAYS.reduce((a,d)=>a+d.stops.length,0);
+ $("sheet").innerHTML=`<h2>일정 내보내기</h2><p class="gn">${DAYS.length}일 · 일정 ${n}개 · 보관함 ${VAULT.length}개를 파일 하나로 저장해요. 구글 키는 들어 있지 않아요.</p><button class="sm" id="ex_f">파일로 저장</button><button class="sm" id="ex_c">텍스트 복사</button><textarea readonly rows="5" style="width:100%;margin-top:8px;font-size:11px">${esc(j)}</textarea><button class="sm" id="ex_x">닫기</button>`;
+ $("bd").classList.add("on");$("ex_x").onclick=()=>$("bd").classList.remove("on");
+ $("ex_f").onclick=()=>{try{const d=new Date(Date.now()+9*36e5).toISOString().slice(0,16).replace(/[-:T]/g,"").replace(/^(\d{8})(\d{4})$/,"$1-$2"),a=document.createElement("a");a.href=URL.createObjectURL(new Blob([j],{type:"application/json"}));a.download="osaka-trip-"+d+".json";document.body.appendChild(a);a.click();a.remove();toast("파일로 저장했어요. 내려받기가 막히면 ‘텍스트 복사’를 쓰세요.",5000)}catch(e){toast("파일 저장이 막혀 있어요. ‘텍스트 복사’를 쓰세요.")}};
+ $("ex_c").onclick=async()=>{try{await navigator.clipboard.writeText(j);toast("복사했어요.")}catch(e){const t=$("sheet").querySelector("textarea");t.select();toast("글을 선택했어요. 직접 복사해 주세요.")}}}
+function importOpen(){if(TM.on||RM.on){toast("일정 수정 중에는 불러올 수 없어요. 확인이나 취소를 먼저 눌러 주세요.");return}
+ let bak=null;try{bak=localStorage.getItem("trip-bak-last")}catch(e){}
+ $("sheet").innerHTML=`<h2>일정 가져오기</h2><p class="gn">내보낸 파일(.json)을 고르거나 텍스트를 붙여 넣으세요. 가져오면 지금 일정이 통째로 바뀌어요. 바꾸기 전에 지금 일정을 자동으로 백업해 둬요.</p><input type="file" id="im_f" accept=".json,application/json"><textarea id="im_t" rows="4" placeholder="또는 여기에 붙여 넣기" style="width:100%;margin-top:8px;font-size:11px"></textarea><div id="im_s"></div><button class="sm" id="im_go">불러오기</button>${bak?'<button class="sm" id="im_bk">직전 백업으로 복원</button>':""}<button class="sm" id="im_x">닫기</button>`;
+ $("bd").classList.add("on");$("im_x").onclick=()=>$("bd").classList.remove("on");
+ $("im_f").onchange=async e=>{const f=e.target.files[0];if(f)$("im_t").value=await f.text()};
+ const doApply=(txt,label)=>{let o;try{o=JSON.parse(txt)}catch(e){toast("파일 내용을 읽을 수 없어요. 내보낸 파일이 맞는지 확인하세요.");return false}
+  if(!o||!(o.v>=1)||!Array.isArray(o.d)||!o.d.length||!o.d.every(d=>d&&Array.isArray(d.stops)&&d.stops.every(s=>s&&typeof s.name==="string"&&/^\d{1,2}:\d{2}$/.test(s.time)))){toast("일정 파일 형식이 아니에요.");return false}
+  if(o.v>VER){toast("이 파일은 더 새로운 버전에서 만든 거예요. 앱을 최신으로 업데이트한 뒤 가져오세요.",6000);return false}
+  try{localStorage.setItem("trip-bak-last",JSON.stringify({v:VER,f:FIXV,d:DAYS,vt:VAULT}))}catch(e){}
+  const before=DAYS.length;apply(JSON.stringify(Object.assign({},o,{d:o.d,vt:Array.isArray(o.vt)?o.vt:[]})));
+  if(di>=DAYS.length)di=0;save();vtCount();build();$("bd").classList.remove("on");toast(label+" ("+DAYS.length+"일 · 일정 "+DAYS.reduce((a,d)=>a+d.stops.length,0)+"개)",5000);return true};
+ $("im_go").onclick=async()=>{const t=$("im_t").value.trim();if(!t){toast("파일을 고르거나 텍스트를 붙여 넣어 주세요.");return}
+  let o;try{o=JSON.parse(t)}catch(e){toast("파일 내용을 읽을 수 없어요.");return}
+  const n=Array.isArray(o.d)?o.d.reduce((a,d)=>a+((d&&d.stops)||[]).length,0):0;
+  if(!await ask("파일의 일정(일정 "+n+"개)으로 지금 일정을 바꿀까요?"+(o.exported?"\n내보낸 시각: "+new Date(o.exported).toLocaleString("ko-KR"):"")))return;
+  doApply(t,"가져왔어요.")};
+ const bk=$("im_bk");if(bk)bk.onclick=async()=>{if(await ask("가져오기 직전 일정으로 되돌릴까요?"))doApply(localStorage.getItem("trip-bak-last"),"백업으로 복원했어요.")}}
+$("up").onclick=()=>scrollTo({top:0,behavior:"smooth"});
+
+try{const j=localStorage.getItem(KEY);if(j)apply(j)}catch(e){}
+async function pull(quiet){if(!db||TM.on||RM.on)return;try{const sn=await db.doc("trip/plan").get();if(TM.on||RM.on)return;if(sn.exists&&sn.data().json){const j=sn.data().json,cur=JSON.stringify({v:VER,f:FIXV,d:DAYS,vt:VAULT});
+  if(j!==cur&&j!==SYNC.j){apply(j);try{localStorage.setItem(KEY,j)}catch(e){}if(!$("app").hidden)build();if(!quiet)toast("다른 기기에서 바뀐 일정을 불러왔어요.")}SYNC={st:"ok",at:Date.now(),j}}else save();syncShow()}catch(e){SYNC={st:"err",at:0};syncShow()}}
+(async()=>{try{const c=window.claude&&await window.claude.use("db");if(c){db=c;SYNC.st="load";syncShow();await pull(true)}else syncShow()}catch(e){syncShow()}})();
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")pull(false)});
+setInterval(()=>{if(document.visibilityState==="visible")pull(false)},60000);
+
+/* ===== 구글 장소 검색 · 경로 자동 계산 ===== */
+const gk={get(){try{return localStorage.getItem("gmkey")||""}catch(e){return ""}},set(v){try{v?localStorage.setItem("gmkey",v):localStorage.removeItem("gmkey")}catch(e){}}};
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let toastT=null;
+function toast(t,ms){let e=$("toast");if(!e){e=document.createElement("div");e.id="toast";document.body.appendChild(e)}e.textContent=t;e.classList.add("on");clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove("on"),ms||3500)}
+const up5=m=>Math.ceil(m/5)*5;
+const legMins=l=>{if(!l)return 0;if(l.mins!=null)return l.mins;const n=String(l.min||"").match(/\d+/g);return n?Math.ceil(n.map(Number).reduce((a,b)=>a+b,0)/n.length):5};
+async function gfetch(url,body,mask){
+ let r;try{r=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json","X-Goog-Api-Key":gk.get(),"X-Goog-FieldMask":mask},body:JSON.stringify(body)})}
+ catch(e){throw new Error("구글 서버에 연결하지 못했어요. 인터넷 연결을 확인하거나, 이 페이지에서 외부 요청이 막혀 있을 수 있어요. ("+(e.message||e)+")")}
+ let j=null;try{j=await r.json()}catch(e){}
+ if(!r.ok){const m=(j&&j.error&&(j.error.message||j.error.status))||("HTTP "+r.status);throw new Error(m)}
+ return j||{}}
+async function searchPlaces(q){
+ const j=await gfetch("https://places.googleapis.com/v1/places:searchText",{textQuery:q,languageCode:"ko",regionCode:"JP",maxResultCount:5,locationBias:{circle:{center:{latitude:34.6937,longitude:135.5023},radius:30000}}},
+  "places.id,places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.photos,places.websiteUri,places.googleMapsUri,places.regularOpeningHours.weekdayDescriptions,places.primaryTypeDisplayName,places.types,places.editorialSummary,places.nationalPhoneNumber");
+ return j.places||[]}
+async function llOf(s){if(s.ll)return s.ll;if(!gk.get())return null;
+ try{if(s.pid){const r=await fetch("https://places.googleapis.com/v1/places/"+s.pid,{headers:{"X-Goog-Api-Key":gk.get(),"X-Goog-FieldMask":"location"}});const j=await r.json();if(j&&j.location)return s.ll={lat:j.location.latitude,lng:j.location.longitude}}
+  if(s.q){const r=await fetch("https://places.googleapis.com/v1/places:searchText",{method:"POST",headers:{"Content-Type":"application/json","X-Goog-Api-Key":gk.get(),"X-Goog-FieldMask":"places.id,places.location"},body:JSON.stringify({textQuery:s.q,languageCode:"ko",regionCode:"JP",maxResultCount:1,locationBias:{circle:{center:{latitude:34.6937,longitude:135.5023},radius:30000}}})});const j=await r.json(),p=j&&j.places&&j.places[0];if(p&&p.location){if(p.id&&!s.pid)s.pid=p.id;return s.ll={lat:p.location.latitude,lng:p.location.longitude}}}}catch(e){}
+ return null}
+const photoUrl=(p,w)=>"https://places.googleapis.com/v1/"+p.name+"/media?maxWidthPx="+w+"&key="+encodeURIComponent(gk.get());
+const wpOf=s=>s.pid?{placeId:s.pid}:{address:s.q||s.name};
+const ROUTE_MASK="routes.legs.startLocation,routes.legs.endLocation,routes.duration,routes.distanceMeters,routes.travelAdvisory.transitFare,routes.legs.steps.travelMode,routes.legs.steps.staticDuration,routes.legs.steps.navigationInstruction,routes.legs.steps.transitDetails";
+const secs=d=>parseInt(String(d||"0"),10)||0;
+const ROUTE_MASK2="routes.legs.startLocation,routes.legs.endLocation,routes.duration,routes.distanceMeters,routes.legs.steps.travelMode,routes.legs.steps.staticDuration,routes.legs.steps.navigationInstruction,routes.legs.steps.transitDetails";
+async function routeOne(o,d,mode,dep){
+ const body={origin:o,destination:d,travelMode:mode,languageCode:"ko",units:"METRIC"};
+ if(mode==="TRANSIT"&&dep)body.departureTime=dep;
+ let j;try{j=await gfetch("https://routes.googleapis.com/directions/v2:computeRoutes",body,ROUTE_MASK)}
+ catch(e){if(/field|mask|Invalid/i.test(e.message)&&!/API_KEY|PERMISSION|not enabled|referer/i.test(e.message))j=await gfetch("https://routes.googleapis.com/directions/v2:computeRoutes",body,ROUTE_MASK2);else throw e}
+ return (j.routes||[])[0]||null}
+function sameWeekday(date,depMin){const wd=new Date(date+"T00:00:00Z").getUTCDay(),nj=new Date(Date.now()+9*36e5);
+ let d=new Date(Date.UTC(nj.getUTCFullYear(),nj.getUTCMonth(),nj.getUTCDate()));
+ for(let i=0;i<8;i++){if(d.getUTCDay()===wd&&d.getTime()+depMin*6e4-9*36e5>Date.now()+6e5)return new Date(d.toISOString().slice(0,10)+"T"+fmt(Math.min(1439,depMin))+":00+09:00").toISOString();d=new Date(d.getTime()+864e5)}return null}
+const utcDep=(date,m)=>{const x=new Date(date+"T"+fmt(Math.min(1439,m))+":00+09:00");return isNaN(x)?null:x.toISOString()};
+/* 구글 지도 API(Routes/Directions)는 일본 대중교통 경로를 제공하지 않아요 → 거리 기준 추정 */
+function transitEst(km){km=Math.max(0.3,km);const mins=Math.round(10+km*2.6);
+ const l=L("transit","대중교통 (추정)",`약 ${mins}분 (추정)`,km>12?"요금은 구글맵에서 확인":"약 ¥190~290 (추정)",[`구글 지도 API는 일본 대중교통 경로를 제공하지 않아서, 거리(약 ${Math.round(km*10)/10}km) 기준으로 추정한 시간이에요.`,"가까운 역까지 걷기 + 열차 + 내려서 걷기를 합친 대략적인 값이에요.","!정확한 노선·출발 시각은 아래 ‘구글맵에서 경로 보기’(대중교통)로 확인하세요."]);
+ l.mins=mins;l.src="est";return l}
+/* 가까운 역 찾기 → 역까지 실제 도보 + 역↔역 열차 시간 추정 */
+const llOfLeg=(r,k)=>{const x=r&&r.legs&&r.legs[0]&&r.legs[0][k]&&r.legs[0][k].latLng;return x&&x.latitude!=null?{lat:x.latitude,lng:x.longitude}:null};
+async function nearSt(ll){
+ const j=await gfetch("https://places.googleapis.com/v1/places:searchNearby",{includedTypes:["subway_station","train_station","light_rail_station"],maxResultCount:6,rankPreference:"DISTANCE",languageCode:"ko",locationRestriction:{circle:{center:{latitude:ll.lat,longitude:ll.lng},radius:1500}}},"places.id,places.displayName,places.location");
+ return (j.places||[]).filter(p=>p.location).map(p=>({id:p.id,name:(p.displayName&&p.displayName.text)||"역",ll:{lat:p.location.latitude,lng:p.location.longitude}}))}
+const stName=n=>/역$|駅$|station$/i.test(n)?n:n+"역";
+const trainMin=km=>Math.round(5+km*2.4);
+const fareEst=km=>km<=3?"약 ¥190":km<=7?"약 ¥240":km<=13?"약 ¥290":km<=19?"약 ¥340":"약 ¥390~";
+async function stationLeg(o,d,walk){
+ const A=llOfLeg(walk,"startLocation"),B=llOfLeg(walk,"endLocation");if(!A||!B)return null;
+ const [SA,SB]=await Promise.all([nearSt(A),nearSt(B)]);if(!SA.length||!SB.length)return null;
+ const wEst=(p,q)=>Math.max(1,Math.round(aiKm(p,q)*1.3*12.5));
+ let best=null;
+ SA.forEach(a=>SB.forEach(b=>{if(a.id===b.id)return;const km=aiKm(a.ll,b.ll);if(km<0.4)return;const t=wEst(A,a.ll)+trainMin(km)+wEst(b.ll,B);if(!best||t<best.t)best={a,b,km,t}}));
+ if(!best)return null;
+ let wa=null,wb=null;
+ try{[wa,wb]=await Promise.all([routeOne(o,{placeId:best.a.id},"WALK"),routeOne({placeId:best.b.id},d,"WALK")])}catch(e){}
+ const ma=wa?Math.max(1,Math.round(secs(wa.duration)/60)):wEst(A,best.a.ll),mb=wb?Math.max(1,Math.round(secs(wb.duration)/60)):wEst(best.b.ll,B),tr=trainMin(best.km),tot=ma+tr+mb;
+ const an=esc(stName(best.a.name)),bn=esc(stName(best.b.name));
+ const l=L("transit",`대중교통 (${an} → ${bn})`,`약 ${tot}분 (열차 추정)`,fareEst(best.km)+" (지하철 기준 추정)",[`도보 약 ${ma}분 → ${an}`,`열차 약 ${tr}분 (추정) · ${an} → ${bn} (직선 ${Math.round(best.km*10)/10}km, 대기 포함)`,`${bn}에서 도보 약 ${mb}분`,"!구글 지도 API가 일본 노선 정보를 주지 않아 열차 시간·환승은 추정이에요. 탈 노선은 아래 ‘구글맵에서 경로 보기’로 확인하세요."]);
+ l.mins=tot;l.src="est";l.st=[best.a.name,best.b.name];return l}
+async function calcLeg(o,d,date,depMin){
+ const dep=utcDep(date,depMin);
+ let walk=null,tr=null;
+ try{walk=await routeOne(o,d,"WALK")}catch(e){if(/API_KEY|PERMISSION|403|not enabled|referer/i.test(e.message))throw e}
+ const ws=walk?secs(walk.duration):0;
+ if(walk&&ws<=900){return mkLeg("walking",walk,"도보",[`도보로 이동해요 (약 ${Math.max(1,Math.round(ws/60))}분, ${Math.round(walk.distanceMeters/10)/100}km)`],0,false)}
+ let trErr="";try{tr=await routeOne(o,d,"TRANSIT",dep)}catch(e){trErr=e.message}
+ if(tr)return mkLeg("transit",tr,"대중교통",null,0,false);
+ if(walk){const km=(walk.distanceMeters||ws/60*80)/1000;
+  let est=null;try{est=await stationLeg(o,d,walk)}catch(e){est=null}
+  if(!est)est=transitEst(km);
+  if(ws/60<=25&&ws/60<=est.mins+3)return mkLeg("walking",walk,"도보",[`역을 거쳐 가는 것보다 걷는 게 빠르거나 비슷해서 도보로 안내해요 (약 ${Math.round(ws/60)}분, ${Math.round(km*100)/100}km)`],0,false);
+  return est}
+ if(trErr)throw new Error(trErr);
+ throw new Error("경로를 찾지 못했어요")}
+function mkLeg(gm,r,label,fixedSteps,_,approx){
+ const mins=Math.max(1,Math.round(secs(r.duration)/60));
+ let steps=fixedSteps,mode=label,xfer=0;
+ if(!steps){steps=[];const ss=(r.legs&&r.legs[0]&&r.legs[0].steps)||[];
+  ss.forEach(s=>{const t=s.transitDetails;
+   if(t&&s.travelMode==="TRANSIT"){xfer++;const ln=t.transitLine||{},v=(ln.vehicle&&ln.vehicle.name&&ln.vehicle.name.text)||"대중교통";
+    const nm=ln.nameShort||ln.name||"";const a=t.stopDetails&&t.stopDetails.departureStop&&t.stopDetails.departureStop.name,b=t.stopDetails&&t.stopDetails.arrivalStop&&t.stopDetails.arrivalStop.name;
+    const dt=t.localizedValues&&t.localizedValues.departureTime&&t.localizedValues.departureTime.time&&t.localizedValues.departureTime.time.text;
+    steps.push(`${v} ${esc(nm)} 탑승: ${esc(a||"")}${dt?" ("+esc(dt)+" 출발)":""} → ${esc(b||"")}${t.stopCount?` (${t.stopCount}정거장)`:""}`)}
+   else if(s.travelMode==="WALK"){const m=Math.round(secs(s.staticDuration)/60);if(m>=1)steps.push(`도보 약 ${m}분${s.navigationInstruction&&s.navigationInstruction.instructions?" · "+esc(s.navigationInstruction.instructions):""}`)}});
+  if(!steps.length)steps=["구글맵 경로 정보를 불러왔어요. 자세한 노선은 아래 버튼으로 확인하세요."];
+  mode=xfer>1?`대중교통 (환승 ${xfer-1}회)`:"대중교통";
+  if(approx)steps.push("!출발 날짜의 시간표가 아직 없어서 평소 시간표 기준이에요. 출발 전에 구글맵으로 다시 확인하세요.")}
+ const f=r.travelAdvisory&&r.travelAdvisory.transitFare;
+ const cost=gm==="walking"?"무료":f&&f.units!=null?`약 ¥${Number(f.units).toLocaleString()}`:"요금은 구글맵에서 확인";
+ const l=L(gm,mode,`약 ${mins}분`,cost,steps);l.mins=mins;l.src="google";return l}
+const staleLeg=()=>Object.assign(L("transit","구글맵에서 확인","—","—",["앞뒤 일정이 바뀌어서 이 구간 경로를 새로 계산하지 못했어요.","아래 ‘구글맵에서 경로 보기’를 눌러 확인하세요."]),{mins:0});
+const GJP=[["나","予約した〇〇です。","요야쿠 시타 〇〇 데스","예약한 〇〇입니다."],["직원","お名前をお伺いしてもよろしいですか？","오나마에오 우카가이시테모 요로시이데스카","성함을 알려 주시겠어요?"],["나","おすすめは何ですか？","오스스메와 난데스카","추천 메뉴가 뭔가요?"],["나","これをください。","고레오 구다사이","이걸로 주세요."],["나","お会計をお願いします。","오카이케이오 오네가이시마스","계산해 주세요."]];
+let GS={};
+function keyForm(rep){
+ $("sheet").innerHTML=`<h2>🔑 구글 지도 키</h2><p class="gn">키는 이 기기(브라우저)에만 저장돼요. 페이지 코드나 공유 링크에는 들어가지 않고, 폰과 PC에서 각각 한 번씩 입력해야 해요. 채팅에는 붙여넣지 마세요.</p><label>API 키<input id="g_k" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="AIza..."></label><button id="g_ks">저장</button>${gk.get()?'<button class="sm" id="g_kd">저장된 키 삭제</button>':""}<button class="sm" id="g_back">뒤로</button>`;
+ $("g_k").value=gk.get();
+ $("g_ks").onclick=()=>{gk.set($("g_k").value.trim());openSearch(rep)};
+ if(gk.get())$("g_kd").onclick=()=>{gk.set("");openSearch(rep)};
+ $("g_back").onclick=()=>openSearch(rep)}
+var ADDPRE=null;
+function openSearch(rep){
+ GS={rep,res:[],pre:ADDPRE};ADDPRE=null;const key=gk.get();
+ $("sheet").innerHTML=`<h2>${rep>=0?"장소 다시 찾기":"장소 검색해서 추가"}</h2>`+(key?`<label>가게·장소 이름<input id="g_q" placeholder="예: 야키토리 료보 / 도톤보리 글리코" autocomplete="off"></label><button id="g_go">🔎 검색</button><div id="g_res"></div>`:`<p class="gn">구글 지도 키를 넣으면 가게 이름만으로 위치·사진을 확인하고 앞뒤 이동 경로까지 자동으로 채워요. 키 없이 쓰려면 아래 ‘직접 입력’을 누르세요.</p>`)+`<button class="sm" id="g_key">🔑 구글 키 ${key?"변경/삭제":"입력하기"}</button><button class="sm" id="g_man">✏️ 직접 입력으로 ${rep>=0?"수정":"추가"}</button><button class="sm" id="cn">닫기</button>`;
+ $("bd").classList.add("on");$("cn").onclick=()=>$("bd").classList.remove("on");
+ $("g_key").onclick=()=>keyForm(rep);$("g_man").onclick=()=>form(rep);
+ if(!key)return;
+ const run=async()=>{const q=$("g_q").value.trim();if(!q)return;const box=$("g_res");box.innerHTML='<p class="gn">검색 중…</p>';
+  try{const r=await searchPlaces(q);GS.res=r;
+   if(!r.length){box.innerHTML='<p class="gn">검색 결과가 없어요. 이름을 바꾸거나 지역명을 붙여 보세요 (예: 梅田, 難波).</p>';return}
+   box.innerHTML=r.map((p,i)=>`<div class="gc"><div class="gi">${p.photos&&p.photos[0]?`<img src="${esc(photoUrl(p.photos[0],200))}" alt="" onerror="this.parentNode.textContent='사진 없음'">`:"사진 없음"}</div><div class="gt"><b>${esc(p.displayName&&p.displayName.text)}</b><small>${esc((p.primaryTypeDisplayName&&p.primaryTypeDisplayName.text)||"")}${p.rating?" · ⭐"+p.rating+" ("+(p.userRatingCount||0)+")":""}</small><small>${esc(p.formattedAddress||"")}</small><a class="hl" target="_blank" rel="noopener" href="${esc(p.googleMapsUri||"#")}">구글맵에서 보기 ↗</a><button class="sm gpick" data-i="${i}">이 장소로 선택</button></div></div>`).join("")+'<p class="gn">사진과 주소를 보고 맞는 가게를 골라 주세요. 맞는 가게가 없으면 이름을 더 구체적으로 써서 다시 검색하세요.</p>'}
+  catch(e){box.innerHTML=`<p class="gerr">⚠️ ${esc(e.message)}</p><p class="gn">키가 올바른지, 구글 클라우드에서 ‘Places API (New)’가 켜져 있는지, 키에 ‘웹사이트 제한’이 걸려 있지 않은지 확인하세요.</p>`}};
+ $("g_go").onclick=run;$("g_q").onkeydown=e=>{if(e.key==="Enter")run()};
+ $("g_res").onclick=e=>{const b=e.target.closest(".gpick");if(b)pickPlace(GS.res[+b.dataset.i])}}
+function dayHours(p,date){const w=p.regularOpeningHours&&p.regularOpeningHours.weekdayDescriptions;if(!w)return null;return w[(new Date(date+"T00:00:00").getDay()+6)%7]||null}
+function pickPlace(p,pre){
+ pre=pre||GS.pre;
+ GS.p=p;const st=DAYS[di].stops,rep=GS.rep,date=DAYS[di].date;
+ const hrs=dayHours(p,date);
+ const ph=(p.photos||[]).slice(0,3).map(x=>`<img src="${esc(photoUrl(x,400))}" alt="" onerror="this.remove()">`).join("");
+ const opts=(pre&&pre.after===-1?'<option value="-1" selected>맨 처음에 넣기</option>':"")+st.map((s,i)=>`<option value="${i}"${(pre&&pre.after!=null?i===pre.after:i===st.length-1)?" selected":""}>${esc(s.time)} ${esc(s.name.split(" (")[0])} 다음</option>`).join("");
+ $("sheet").innerHTML=`<h2>${esc(p.displayName&&p.displayName.text)}</h2>${ph?`<div class="gph">${ph}</div>`:""}<p class="gn">${esc(p.formattedAddress||"")}</p>${hrs?`<p class="gn">🕒 ${esc(hrs)}</p>`:""}${mapDetails("지도로 위치 확인",placeSrc({pid:p.id,q:(p.displayName&&p.displayName.text)||""}))}<a class="go alt" target="_blank" rel="noopener" href="${esc(p.googleMapsUri||"#")}">구글맵에서 사진·메뉴·후기 보기</a>
+ ${rep>=0?"":`<label>어디 다음에 넣을까요<select id="g_after">${opts}</select></label><label>머무는 시간(분)<input id="g_dur" type="number" min="0" value="60"></label>`}
+ <button id="g_calc">🧭 앞뒤 이동 경로 계산</button><div id="g_plan"></div><button class="sm" id="g_b">다시 검색</button>`;
+ $("g_b").onclick=()=>{const pr=GS.pre;openSearch(rep);GS.pre=pr};
+ if(pre&&$("g_after")){if(pre.after!=null)$("g_after").value=String(pre.after);if(pre.dur)$("g_dur").value=pre.dur}
+ $("g_calc").onclick=()=>planPlace()}
+async function planPlace(){
+ const p=GS.p,st=DAYS[di].stops,rep=GS.rep,date=DAYS[di].date,box=$("g_plan");
+ let pi,dur,cur=rep>=0?st[rep]:null;
+ if(rep>=0){pi=rep-1;dur=cur.dur}else{pi=+$("g_after").value;dur=+$("g_dur").value||60}
+ const prev=pi>=0?st[pi]:null,next=st[rep>=0?rep+1:pi+1]||null,me={placeId:p.id};
+ box.innerHTML='<p class="gn">경로를 계산하는 중…</p>';
+ try{
+  const prevEnd=prev?T(prev.time)+prev.dur:null;
+  const lin=prev?await calcLeg(wpOf(prev),me,date,prevEnd):null;
+  const pt=GS.pre&&GS.pre.t!=null?GS.pre.t:null;const start=rep>=0?T(cur.time):(pt!=null?pt:prev?up5(prevEnd+legMins(lin)):T(st[0]?st[0].time:"09:00"));
+  const lout=next?await calcLeg(me,wpOf(next),date,start+dur):null;
+  GS.plan={pi,dur,lin,lout,start,prev,next};
+  const lg=(t,l)=>l?`<div class="gl"><b>${t}</b> ${esc(l.mode)} · ${esc(l.min)} · ${esc(l.cost)}</div>`:"";
+  box.innerHTML=`${lg("이전 → 이곳",lin)}${lg("이곳 → 다음",lout)}<label>이곳 도착 시각<input id="g_t" type="time" value="${fmt(start)}"></label><div id="g_push" class="gwarn"></div><button id="g_ok">${rep>=0?"이 장소로 바꾸기":"일정에 추가"}</button>`;
+  const calcPush=()=>{const t=T($("g_t").value||fmt(start));const newEnd=t+dur;const need=next?newEnd+legMins(lout):0;const push=next&&T(next.time)<need?up5(need-T(next.time)):0;
+   const j=rep>=0?rep+1:pi+1;const sh=planShift(st,j,push,newEnd,legMins(lout));
+   GS.plan.t=t;GS.plan.push=push;GS.plan.sh=sh;GS.plan.j=j;
+   const mvn=st.slice(j,j+sh.n).filter(s=>/예약/.test(s.sum||"")||(s.info||[]).some(q=>/예약/.test(q[0]+q[1]))).map(s=>s.time+" "+s.name.split(" (")[0]);
+   const m=[];
+   if(sh.n&&push)m.push(`⏱ 다음 일정부터 ${sh.n}개를 ${push}분 뒤로 밀어요.`+(mvn.length?` ⚠️ 예약이 있는 일정도 밀려요: ${mvn.join(", ")}`:""));
+   else if(!push&&next)m.push("다음 일정 시각은 그대로예요.");
+   if(sh.pin)m.push(`📌 고정 일정(${sh.pin.time} ${sh.pin.name.split(" (")[0]})은 그대로예요.`);
+   $("g_push").innerHTML=esc(m.join(" "))+(sh.short>0?`<br><b>⚠️ 고정 일정까지 ${sh.short}분 모자라요. 그래도 추가하면 일정표에 빨간색으로 표시돼요.</b>`:"");
+   $("g_ok").textContent=sh.short>0?"⚠️ 그래도 "+(rep>=0?"바꾸기":"추가"):(rep>=0?"이 장소로 바꾸기":"일정에 추가")};
+  $("g_t").oninput=calcPush;calcPush();$("g_ok").onclick=commitPlace}
+ catch(e){box.innerHTML=`<p class="gerr">⚠️ ${esc(e.message)}</p><p class="gn">‘Routes API’가 켜져 있는지 확인하세요. 경로 없이 일정만 넣으려면 ‘직접 입력’을 쓰세요.</p>`}}
+function commitPlace(){
+ const p=GS.p,pl=GS.plan,st=DAYS[di].stops,rep=GS.rep,date=DAYS[di].date,name=(p.displayName&&p.displayName.text)||"새 장소";
+ const hrs=dayHours(p,date),isFood=(p.types||[]).some(t=>/restaurant|cafe|bar|bakery|food|izakaya/.test(t));
+ const info=[["주소",esc(p.formattedAddress||"")]];
+ if(p.rating)info.push(["평점",`⭐${p.rating} (후기 ${p.userRatingCount||0}건)`]);
+ if(hrs)info.push(["영업",esc(hrs)]);
+ if(p.nationalPhoneNumber)info.push(["전화",esc(p.nationalPhoneNumber)]);
+ if(p.googleMapsUri)info.push(["메뉴·후기",`<a class="hl" target="_blank" rel="noopener" href="${esc(p.googleMapsUri)}">구글맵에서 보기 ↗</a>`]);
+ const det=[esc(p.formattedAddress||"")];
+ if(p.editorialSummary&&p.editorialSummary.text)det.push(esc(p.editorialSummary.text));
+ det.push("!영업시간·휴무·예약 가능 여부는 방문 전에 한 번 더 확인하세요.");
+ const sum=((p.primaryTypeDisplayName&&p.primaryTypeDisplayName.text)||"장소")+(p.rating?" · ⭐"+p.rating:"");
+ const base={time:fmt(pl.t),dur:pl.dur,name,sum,det,info,q:name,pid:p.id,ll:undefined,m:pl.lin?pl.lin.gm:"transit",link:p.websiteUri||undefined,leg:pl.lout||undefined};
+ let at;
+ if(rep>=0){const o=st[rep];st[rep]=Object.assign({},o,base,{time:o.time,dur:o.dur,jp:o.jp||(isFood?GJP:undefined),leg:pl.lout||o.leg});at=rep}
+ else{base.jp=isFood?GJP:undefined;at=pl.pi+1;st.splice(at,0,base)}
+ if(pl.prev&&pl.lin)pl.prev.leg=pl.lin;
+ if(rep<0)st[at].time=fmt(pl.t);GS.pre=null;
+ if(pl.sh&&pl.sh.n&&pl.push){pl.sh.mv.forEach((m,q)=>{st[at+1+q].time=fmt(m)})}
+ commit(true);toast(pl.sh&&pl.sh.short>0?"추가했어요. 고정 일정 앞 시간이 모자라 일정표에 빨간색으로 표시돼요.":(pl.push&&pl.sh&&pl.sh.n?`추가했어요. 이후 일정을 ${pl.push}분 밀었어요.`:"추가했어요."))}
+/* 삭제 후 앞뒤 경로 다시 잇기 */
+async function relink(prevS,nextS,date){
+ if(!prevS||!nextS)return;
+ if(!gk.get()){prevS.leg=staleLeg();return}
+ try{prevS.leg=await calcLeg(wpOf(prevS),wpOf(nextS),date,T(prevS.time)+prevS.dur);toast("앞뒤 이동 경로를 다시 계산했어요.")}catch(e){prevS.leg=staleLeg();toast("경로를 다시 계산하지 못했어요.")}
+ save();build()}
+
+/* ===== 고정핀 · 일정 검증 · 지도 미리보기 ===== */
+function planShift(st,j,delta,prevEnd,prevLegMin){
+ const mv=[];let i=j;
+ while(i<st.length&&!st[i].pin){mv.push(Math.min(1439,T(st[i].time)+delta));i++}
+ let short=0,pin=null;
+ if(i<st.length){pin=st[i];let end,lm;
+  if(mv.length){const l=i-1;end=mv[mv.length-1]+st[l].dur;lm=legMins(st[l].leg)}else{end=prevEnd;lm=prevLegMin}
+  short=Math.max(0,end+lm-T(pin.time))}
+ return{mv,short,pin,n:mv.length}}
+function legFlag(st,i){const s=st[i],nx=st[i+1];if(!nx)return null;
+ const gap=T(nx.time)-(T(s.time)+s.dur),need=s.leg?legMins(s.leg):0;
+ if(gap<0)return{k:"ov",t:"일정 겹침 "+(-gap)+"분"};
+ if(/이동|하차|도보|셔틀|라피트|난카이/.test(s.name))return null;
+ const tol=s.leg&&s.leg.src==="google"?1:3;
+ if(need&&need-gap>=tol)return{k:"bad",t:(need-gap)+"분 부족"};
+ return null}
+function placeSrc(x){const k=gk.get(),q=x.pid?"place_id:"+x.pid:encodeURIComponent(x.q||x.name||"");
+ return k?"https://www.google.com/maps/embed/v1/place?key="+encodeURIComponent(k)+"&language=ko&q="+q:"https://maps.google.com/maps?q="+encodeURIComponent(x.q||x.name||"")+"&hl=ko&z=16&output=embed"}
+function dirSrc(a,b,gm){const k=gk.get(),m=gm==="walking"?"walking":gm==="driving"?"driving":"transit";
+ const w=s=>s.pid?"place_id:"+s.pid:encodeURIComponent(s.q||s.name);
+ return k?"https://www.google.com/maps/embed/v1/directions?key="+encodeURIComponent(k)+"&language=ko&mode="+m+"&origin="+w(a)+"&destination="+w(b):"https://maps.google.com/maps?saddr="+encodeURIComponent(a.q||a.name)+"&daddr="+encodeURIComponent(b.q||b.name)+"&dirflg="+(m==="walking"?"w":m==="driving"?"d":"r")+"&hl=ko&output=embed"}
+const mapDetails=(label,src)=>`<details class="mapd"><summary>🗺 ${label}</summary><div class="mapb" data-src="${esc(src)}"></div></details>`;
+document.addEventListener("toggle",e=>{const d=e.target;if(!d.classList||!d.open)return;
+ if(d.classList.contains("fdd")){const b=d.querySelector(".fdb");if(b&&!b.firstChild){FD.i=+d.dataset.i;
+  b.innerHTML=`<div class="seg" id="fc">${["식당","카페","디저트"].map((c,k)=>`<button data-c="${c}"${k?"":' class="on"'}>${c}</button>`).join("")}</div><div class="fres"></div><p class="gn">별점과 후기 수가 높은 순이에요. 메뉴와 분위기는 구글맵에서 확인하세요.</p>`;
+  b.querySelector("#fc").onclick=ev=>{const x=ev.target.closest("button");if(!x)return;b.querySelectorAll("#fc button").forEach(y=>y.classList.toggle("on",y===x));foodSearch(FD.i,x.dataset.c)};
+  b.querySelector(".fres").onclick=ev=>{const x=ev.target.closest(".fadd");if(!x)return;const p=FD.res[+x.dataset.k];GS={rep:-1,res:[]};pickPlace(p,{after:FD.i,dur:FOOD_DUR[FD.cat]||60})};
+  foodSearch(FD.i,"식당")}return}
+ if(!d.classList.contains("mapd"))return;const b=d.querySelector(".mapb");
+ if(b&&!b.firstChild){const f=document.createElement("iframe");f.src=b.dataset.src;f.loading="lazy";f.referrerPolicy="no-referrer-when-downgrade";f.allowFullscreen=true;f.title="지도";b.appendChild(f);
+  if(gk.get()){const p=document.createElement("p");p.className="gn";p.textContent="지도가 비어 있으면 구글 클라우드에서 ‘Maps Embed API’를 켜 주세요.";b.appendChild(p)}}},true);
+
+(function(){const hd=document.querySelector("header"),z=$("hz");
+ const lab=()=>{$("hzl").textContent="DAY "+(di+1)+" · 펼치기"};
+ const set=c=>{hd.classList.toggle("hc",c);z.setAttribute("aria-expanded",c?"false":"true");lab();try{localStorage.setItem("hcol",c?"1":"0")}catch(e){}};
+ let c=false;try{c=localStorage.getItem("hcol")==="1"}catch(e){}
+ hd.classList.toggle("hc",c);z.setAttribute("aria-expanded",c?"false":"true");
+ z.onclick=()=>set(!hd.classList.contains("hc"));
+ window.__hzLab=lab;lab()})();
+
+/* ===== 순서 바꾸기 모드 ===== */
+const MOVE_RE=/이동|하차|도보|셔틀|라피트|난카이/;
+const FOOD_RE=/카츠|야키|스시|초밥|토리|쿠시|다루마|로바타|라멘|우동|카페|피자|식사|점심|저녁|아침|마쓰야|식당/;
+const estLeg=()=>Object.assign(L("transit","이동 (추정)","약 20분 (추정)","구글맵에서 확인",["순서가 바뀌어 경로를 새로 계산하지 못했어요. 이동 시간을 약 20분으로 가정했어요.","아래 ‘구글맵에서 경로 보기’로 정확한 경로를 확인하세요."]),{mins:20});
+function rmEnter(){if(TM.on)return;const st=DAYS[di].stops;if(!st.length)return;
+ RM={on:true,review:false,busy:false,snap:JSON.stringify(st),oi:new Map(st.map((s,i)=>[s,i])),t:new Map(st.map(s=>[s,T(s.time)])),t0:T(st[0].time)};
+ RM.hc=document.querySelector("header").classList.contains("hc");rmHdr(true);document.body.classList.add("rm");$("sim").classList.add("rm");$("rmmsg").textContent="카드를 꾹 눌러 끌어서 순서를 바꾸세요";$("rmo").disabled=$("rmc").disabled=false;build()}
+function rmHdr(c){const hd=document.querySelector("header");hd.classList.toggle("hc",c);$("hz").setAttribute("aria-expanded",c?"false":"true")}
+function rmDelete(i){const st=DAYS[di].stops;if(st.length<=1){toast("일정이 하나도 남지 않게 지울 수는 없어요.");return}
+ const s=st[i];if(s.pin&&!(RM.arm&&RM.arm.s===s&&Date.now()-RM.arm.t<4000)){RM.arm={s,t:Date.now()};toast("📌 고정된 일정이에요. 삭제하려면 한 번 더 눌러 주세요.");return}
+ st.splice(i,1);RM.arm=null;build();toast("삭제했어요. 확인을 누르기 전에는 취소로 되돌릴 수 있어요.")}
+function rmExit(){const hc=RM.hc;RM={on:false};if(hc!==undefined)rmHdr(hc);document.body.classList.remove("rm");$("sim").classList.remove("rm");build()}
+function rmCancel(){if(TM.on){tmCancel();return}if(!RM.on||RM.busy)return;DAYS[di].stops=JSON.parse(RM.snap);RM.review=false;$("bd").classList.remove("on");rmExit();toast("순서 바꾸기를 취소했어요.")}
+function mvStop(i,to){const st=DAYS[di].stops;if(to<0||to>=st.length||to===i)return;const [m]=st.splice(i,1);st.splice(to,0,m);build()}
+function rmRuns(st){const r=[];let a=-1;st.forEach((s,i)=>{if(!s.pin){if(a<0)a=i}else{if(a>=0)r.push([a,i-1]);a=-1}});if(a>=0)r.push([a,st.length-1]);return r}
+const rmAdj=(st,i)=>i>0&&RM.oi.get(st[i])!==RM.oi.get(st[i-1])+1;
+function rmPack(st){
+ rmRuns(st).forEach(([a,b])=>{let f=-1;for(let i=a;i<=b;i++)if(rmAdj(st,i)){f=i;break}
+  if(a===0&&RM.oi.get(st[0])!==0){st[0].time=fmt(RM.t0);if(f<0||f>1)f=1}
+  if(f<0)return;
+  for(let i=f;i<=b;i++){const p=st[i-1];st[i].time=fmt(Math.min(1439,up5(T(p.time)+p.dur+legMins(p.leg))))}})}
+function rmShort(st){const out=[],rs=rmRuns(st);
+ st.forEach((s,j)=>{if(!s.pin||j===0)return;const p=st[j-1];const short=T(p.time)+p.dur+legMins(p.leg)-T(s.time);if(short<=0)return;
+  const r=rs.find(x=>x[0]<=j-1&&j-1<=x[1]);
+  let changed=rmAdj(st,j);if(r)for(let i=r[0];i<=r[1];i++)if(rmAdj(st,i))changed=true;
+  if(!changed)return;
+  let rem=short;const sug=[];
+  if(r){const c=[];for(let i=r[0];i<=r[1];i++){const x=st[i];if(MOVE_RE.test(x.name))continue;const fl=FOOD_RE.test(x.name)?45:20;const mx=Math.floor((x.dur-fl)/5)*5;if(mx>0)c.push({i,from:x.dur,mx})}
+   c.sort((a,b)=>b.mx-a.mx);
+   for(const q of c){if(rem<=0)break;const cu=Math.min(q.mx,Math.ceil(rem/5)*5);sug.push({i:q.i,from:q.from,to:q.from-cu,cut:cu,choice:"cut"});rem-=cu}}
+  out.push({j,pin:s,short,sug,left:Math.max(0,rem)})});
+ return out}
+function rmFinish(st,note){save();const n=st.filter(s=>RM.t.has(s)&&fmt(RM.t.get(s))!==s.time).length;const left=rmShort(st).length;rmExit();
+ toast(note||(left?"순서를 정리했어요. 남은 부족 구간은 빨간색으로 표시돼요.":`순서를 정리했어요. 시각 ${n}개가 바뀌었어요.`))}
+async function rmConfirm(){if(TM.on){tmConfirm();return}
+ if(RM.busy||!RM.on)return;const st=DAYS[di].stops,date=DAYS[di].date;
+ const pairs=[];for(let i=1;i<st.length;i++)if(rmAdj(st,i))pairs.push(i);
+ if(!pairs.length&&RM.oi.get(st[0])===0&&st.length===RM.oi.size){rmExit();toast("바뀐 내용이 없어요.");return}
+ RM.busy=true;$("rmo").disabled=$("rmc").disabled=true;const key=gk.get();let done=0;const msg=$("rmmsg");
+ msg.textContent=pairs.length?`경로 계산 중 (0/${pairs.length})…`:"시간 정리 중…";
+ const job=async i=>{const a=st[i-1],b=st[i];let l=null;
+  if(key&&(a.q||a.pid)&&(b.q||b.pid)){try{l=await calcLeg(wpOf(a),wpOf(b),date,T(a.time)+a.dur)}catch(e){l=null}}
+  a.leg=l||estLeg();done++;msg.textContent=`경로 계산 중 (${done}/${pairs.length})…`};
+ for(let k=0;k<pairs.length;k+=3)await Promise.all(pairs.slice(k,k+3).map(job));
+ if(st.length)st[st.length-1].leg=undefined;
+ rmPack(st);RM.busy=false;$("rmo").disabled=$("rmc").disabled=false;
+ const sh=rmShort(st);
+ if(!sh.length){rmFinish(st);return}
+ rmReview(st,sh)}
+function rmReview(st,sh){
+ RM.review=true;
+ const changed=st.filter(s=>RM.t.has(s)&&fmt(RM.t.get(s))!==s.time).length;
+ const rows=sh.map((g,gi)=>`<div class="rv"><b>📌 ${esc(g.pin.time)} ${esc(g.pin.name.split(" (")[0])}까지 ${g.short}분 부족해요</b>${g.sug.map((q,qi)=>`<div class="rs"><span>${esc(st[q.i].name.split(" (")[0])}<br><small>머무는 시간 ${q.from}분 → ${q.to}분으로 줄이는 것을 추천해요 (−${q.cut}분)</small></span><div class="seg" data-g="${gi}" data-q="${qi}"><button class="on" data-v="cut">줄이기</button><button data-v="keep">그대로 두기</button></div></div>`).join("")}${g.left>0?`<p class="gerr">줄여도 ${g.left}분이 더 부족해요. 일정을 하나 빼거나 고정을 풀어야 해요. 그대로 적용하면 빨간색으로 표시돼요.</p>`:""}${!g.sug.length&&g.left>0?"":""}</div>`).join("");
+ $("sheet").innerHTML=`<h2>순서를 정리했어요</h2><p class="gn">이동 경로를 다시 계산했고 시각 ${changed}개가 바뀌었어요. 아래 구간은 시간이 모자라요.</p>${rows}<button id="rv_ok">적용</button><button class="sm" id="rv_no">취소하고 원래대로</button>`;
+ $("bd").classList.add("on");
+ $("sheet").querySelectorAll(".seg").forEach(sg=>sg.onclick=e=>{const b=e.target.closest("button");if(!b)return;sg.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));sh[+sg.dataset.g].sug[+sg.dataset.q].choice=b.dataset.v});
+ $("rv_ok").onclick=()=>{sh.forEach(g=>g.sug.forEach(q=>{if(q.choice==="cut")st[q.i].dur=q.to}));rmPack(st);RM.review=false;$("bd").classList.remove("on");rmFinish(st)};
+ $("rv_no").onclick=()=>{RM.review=false;rmCancel()}}
+/* 길게 눌러 끌기 */
+(function(){
+ let timer=null,drag=null,sx=0,sy=0,raf=0;const S=$("stops");
+ const place=()=>{const el=drag.el,y=drag.y;el.style.transform=`translateY(${(y-drag.y0)+(scrollY-drag.sc0)}px) scale(1.02)`;
+  const others=[...S.querySelectorAll(".stop")].filter(e=>e!==el);let t=0;
+  others.forEach(o=>{const r=o.getBoundingClientRect();if(r.top+r.height/2<y)t++});
+  S.querySelectorAll(".insb,.insa").forEach(e=>e.classList.remove("insb","insa"));
+  if(t<others.length)others[t].classList.add("insb");else if(others.length)others[others.length-1].classList.add("insa");
+  drag.t=t};
+ const loop=()=>{if(!drag)return;const hb=document.querySelector("header").getBoundingClientRect().bottom;
+  if(drag.y>innerHeight-150)scrollBy(0,12);else if(drag.y<hb+50)scrollBy(0,-12);place();raf=requestAnimationFrame(loop)};
+ const down=(x,y,tg)=>{if(!RM.on||RM.busy||RM.review)return;if(tg.closest(".mv"))return;const el=tg.closest(".stop");if(!el)return;sx=x;sy=y;clearTimeout(timer);
+  timer=setTimeout(()=>{timer=null;const i=+el.dataset.i;if(DAYS[di].stops[i].pin){toast("📌 고정된 일정은 끌 수 없어요. 먼저 고정을 풀어 주세요.");return}
+   drag={el,i,y0:sy,y:sy,sc0:scrollY,t:i};el.classList.add("lift");try{navigator.vibrate&&navigator.vibrate(12)}catch(e){}place();raf=requestAnimationFrame(loop)},380)};
+ const move=(x,y,ev)=>{if(drag){if(ev.cancelable)ev.preventDefault();drag.y=y;return}
+  if(timer&&(Math.abs(y-sy)>8||Math.abs(x-sx)>8)){clearTimeout(timer);timer=null}};
+ const up=()=>{clearTimeout(timer);timer=null;if(!drag)return;cancelAnimationFrame(raf);const d=drag;drag=null;
+  d.el.classList.remove("lift");d.el.style.transform="";S.querySelectorAll(".insb,.insa").forEach(e=>e.classList.remove("insb","insa"));
+  if(d.t!==d.i)mvStop(d.i,d.t)};
+ S.addEventListener("touchstart",e=>{const t=e.touches[0];down(t.clientX,t.clientY,e.target)},{passive:true});
+ document.addEventListener("touchmove",e=>{const t=e.touches[0];move(t.clientX,t.clientY,e)},{passive:false});
+ document.addEventListener("touchend",up);document.addEventListener("touchcancel",up);
+ S.addEventListener("mousedown",e=>down(e.clientX,e.clientY,e.target));
+ document.addEventListener("mousemove",e=>move(e.clientX,e.clientY,e));
+ document.addEventListener("mouseup",up);
+ S.addEventListener("contextmenu",e=>{if(RM.on)e.preventDefault()})})();
+
+/* ===== 출발 추천 · 경로 주변 맛집 ===== */
+const BUF=5;
+const legMax=l=>{if(!l)return 0;if(l.mins!=null)return l.mins;const n=String(l.min||"").match(/\d+/g);return n?Math.max(...n.map(Number)):5};
+const departOf=(st,i)=>{const s=st[i],n=st[i+1];if(!n||!s||!s.leg||s.leg.mins===0||MOVE_RE.test(s.name))return null;return T(n.time)-legMax(s.leg)-BUF};
+function depLine(st,i){const dp=departOf(st,i);if(dp==null)return "";const s=st[i],n=st[i+1],need=legMax(s.leg),late=T(s.time)+s.dur-dp;
+ if(dp<T(s.time))return `<p class="dep bad">🕒 도착해도 다음 일정(${esc(n.time)})에 늦어요 · 이동 ${need}분</p>`;
+ if(late>0)return `<p class="dep warn">🕒 ${fmt(dp)} 출발 추천 · 머무는 시간을 ${late}분 줄여야 해요</p>`;
+ return `<p class="dep">🕒 ${fmt(dp)} 출발 추천 · 이동 ${need}분 + 여유 ${BUF}분${n.pin?" · 📌 고정 일정":""}</p>`}
+const ROUTES_URL="https://routes.googleapis.com/directions/v2:computeRoutes";
+const FOOD_Q={"식당":"restaurant","카페":"cafe","디저트":"dessert shop"};
+const FOOD_DUR={"식당":60,"카페":40,"디저트":30};
+const PRICE={PRICE_LEVEL_INEXPENSIVE:"¥",PRICE_LEVEL_MODERATE:"¥¥",PRICE_LEVEL_EXPENSIVE:"¥¥¥",PRICE_LEVEL_VERY_EXPENSIVE:"¥¥¥¥"};
+let FD={res:[],i:0,cat:"식당"};
+async function routePoly(a,b,gm,date,depMin){
+ const dep=date+"T"+fmt(Math.min(1439,depMin))+":00+09:00",o=wpOf(a),d=wpOf(b),mask="routes.polyline.encodedPolyline";
+ const body=m=>{const x={origin:o,destination:d,travelMode:m,languageCode:"ko",units:"METRIC"};if(m==="TRANSIT")x.departureTime=dep;return x};
+ let r=null;
+ if(gm!=="walking"){try{const j=await gfetch(ROUTES_URL,body("TRANSIT"),mask);r=(j.routes||[])[0]}catch(e){}}
+ if(!r||!r.polyline){const j=await gfetch(ROUTES_URL,body("WALK"),mask);r=(j.routes||[])[0]}
+ if(!r||!r.polyline)throw new Error("경로를 찾지 못했어요");
+ return r.polyline.encodedPolyline}
+async function foodSearch(i,cat){
+ const box=document.querySelector(".fdb .fres");if(!box)return;FD.cat=cat;FD.i=i;box.innerHTML='<p class="gn">경로를 따라 찾는 중…</p>';
+ const st=DAYS[di].stops,a=st[i],b=st[i+1],date=DAYS[di].date;
+ try{
+  const poly=await routePoly(a,b,a.leg&&a.leg.gm,date,T(a.time)+a.dur);
+  const j=await gfetch("https://places.googleapis.com/v1/places:searchText",{textQuery:FOOD_Q[cat],languageCode:"ko",regionCode:"JP",maxResultCount:20,searchAlongRouteParameters:{polyline:{encodedPolyline:poly}}},
+   "places.id,places.displayName,places.formattedAddress,places.rating,places.userRatingCount,places.priceLevel,places.photos,places.googleMapsUri,places.websiteUri,places.regularOpeningHours.weekdayDescriptions,places.primaryTypeDisplayName,places.types,places.editorialSummary,places.nationalPhoneNumber");
+  const arr=(j.places||[]).filter(p=>p.rating&&(p.userRatingCount||0)>=30).sort((x,y)=>y.rating*Math.log10(y.userRatingCount+1)-x.rating*Math.log10(x.userRatingCount+1)).slice(0,6);
+  FD.res=arr;
+  if(!arr.length){box.innerHTML='<p class="gn">조건에 맞는 곳을 못 찾았어요. 다른 종류를 눌러 보세요.</p>';return}
+  box.innerHTML=arr.map((p,k)=>{const hr=dayHours(p,date);return `<div class="gc"><div class="gi">${p.photos&&p.photos[0]?`<img src="${esc(photoUrl(p.photos[0],200))}" alt="" onerror="this.parentNode.textContent='사진 없음'">`:"사진 없음"}</div><div class="gt"><b>${esc(p.displayName&&p.displayName.text)}</b><small>${esc((p.primaryTypeDisplayName&&p.primaryTypeDisplayName.text)||"")} · ⭐${p.rating} (${p.userRatingCount})${p.priceLevel&&PRICE[p.priceLevel]?" · "+PRICE[p.priceLevel]:""}</small><small>${esc(p.formattedAddress||"")}</small>${hr?`<small>🕒 ${esc(hr)}</small>`:""}<a class="hl" target="_blank" rel="noopener" href="${esc(p.googleMapsUri||"#")}">구글맵에서 보기 ↗</a><button class="sm fadd" data-k="${k}">일정에 추가</button></div></div>`}).join("")}
+ catch(e){box.innerHTML=`<p class="gerr">⚠️ ${esc(e.message)}</p>`}}
+
+
+/* ===== 시간 조정 (일정표 선이 실제 시간 비율로 늘어남) ===== */
+const TM_PPM=3;
+const snap5=m=>Math.round(m/5)*5;
+const tmDot=el=>{const d=el.querySelector(".dot"),t=document.getElementById("tl").getBoundingClientRect();const r=d.getBoundingClientRect();return r.top+r.height/2-t.top};
+function tmEnter(){
+ if(RM.on){toast("순서 변경 중이에요. 확인이나 취소를 먼저 눌러 주세요.");return}
+ if(TM.on)return;const st=DAYS[di].stops;if(!st.length)return;
+ TM={on:true,di,all:JSON.stringify(DAYS.map(d=>d.stops)),td:new Set(),busy:false,drag:null,first:true,snap:JSON.stringify(st),oi:new Map(st.map((s,i)=>[s,i])),hc:document.querySelector("header").classList.contains("hc")};
+ rmHdr(true);document.body.classList.add("tmv");$("sim").classList.add("rm");$("rmmsg").textContent="카드를 꾹 눌러 위아래로 끌어서 시간을 바꾸세요";$("rmo").disabled=$("rmc").disabled=false;
+ vtCount();TM.entering=true;build();TM.entering=false;requestAnimationFrame(()=>requestAnimationFrame(tmLayout))}
+function tmPopOff(){const p=$("tmpop");if(p)p.remove()}
+function tmPop(cy){
+ tmPopOff();const st=DAYS[di].stops,tl=$("tl"),r=tl.getBoundingClientRect(),yy=cy-r.top;
+ const t=Math.max(0,Math.min(1439,snap5(tmYtoT(yy,-1))));let after=-1;st.forEach((s,i)=>{if(T(s.time)<=t)after=i});
+ const p=document.createElement("div");p.id="tmpop";p.className="tmpop";p.style.top=yy+"px";
+ p.innerHTML='<i class="tmg2"></i><div class="tmpb"><div class="tmpt">🕒 <b>'+fmt(t)+'</b>에 넣기</div><div class="tmpr"><button type="button" data-a="new">＋ 새 일정</button><button type="button" data-a="vault">📦 보관함 ('+VAULT.length+')</button></div></div>';
+ p.querySelector(".tmpr").onclick=ev=>{const b=ev.target.closest("button");if(!b)return;ev.stopPropagation();tmPopOff();
+  if(b.dataset.a==="new"){ADDPRE={after,t,dur:60};openSearch(-1)}else tmVault(t,after)};
+ tl.appendChild(p)}
+function tmClone(s){const c=JSON.parse(JSON.stringify(s));delete c.leg;c.pin=false;return c}
+function tmPut(item,t,after){const st=DAYS[di].stops,c=tmClone(item);delete c.vid;c.time=fmt(t);st.splice(after+1,0,c);
+ if(st[after])st[after].leg=staleLeg();tmRe();toast(fmt(t)+"에 넣었어요. 겹치면 빨간색으로 표시돼요.")}
+function vtCount(){const t="보관함 ("+VAULT.length+")";["vtb","pcvt"].forEach(i=>{const b=$(i);if(b)b.textContent=t})}
+function tmVault(t,after){
+ const ls=VAULT.map((v,i)=>`<div class="rv"><b>${esc(v.name.split(" (")[0])}</b><small>${esc(v.sum||"")} · ${v.dur||0}분${v.from?" · "+esc(v.from):""}</small><div class="rs">${t!=null?`<button class="sm" data-put="${i}">${fmt(t)}에 넣기</button>`:""}<button class="sm" data-rm="${i}">보관함에서 지우기</button></div></div>`).join("");
+ $("sheet").innerHTML=`<h2>📦 보관함</h2><p class="gn">${t!=null?fmt(t)+"에 넣을 일정을 고르세요. ":"넣으려면 시간선의 빈 곳을 눌러 ‘보관함’을 고르세요. "}보관함은 날짜와 상관없이 따로 저장돼요.</p>${ls||'<p class="gn">비어 있어요. 일정 수정 중 카드의 ‘📦 보관’ 버튼으로 담아 두세요.</p>'}<button class="sm" id="vt_x">닫기</button>`;
+ $("bd").classList.add("on");$("vt_x").onclick=()=>$("bd").classList.remove("on");
+ $("sheet").onclick=e=>{const b=e.target.closest("button");if(!b)return;
+  if(b.dataset.put!=null){const v=VAULT[+b.dataset.put];$("bd").classList.remove("on");tmPut(v,t,after)}
+  else if(b.dataset.rm!=null){VAULT.splice(+b.dataset.rm,1);save();vtCount();tmVault(t,after)}}}
+function tmStash(i,del){const s=DAYS[di].stops[i];const c=tmClone(s);c.from=(di+1)+"일차 "+s.time;VAULT.push(c);save();vtCount();
+ if(del)tmDel(i,true);else toast("보관함에 담았어요 ("+VAULT.length+"개)")}
+function tmMove(i,dir){const days=DAYS,k=di+dir,st=days[di].stops,s=st[i];
+ if(k<0||k>=days.length){toast(dir<0?"첫째 날이에요.":"마지막 날이에요.");return}
+ if(s.pin){toast("📌 고정된 일정이에요. 먼저 고정을 풀어 주세요.");return}
+ if(st.length<=1){toast("일정이 하나도 남지 않게 옮길 수는 없어요.");return}
+ st.splice(i,1);if(st[i-1])st[i-1].leg=staleLeg();
+ const c=tmClone(s),tg=days[k].stops;let at=0;tg.forEach((x,q)=>{if(T(x.time)<=T(c.time))at=q+1});tg.splice(at,0,c);if(tg[at-1])tg[at-1].leg=staleLeg();
+ TM.td.add(k);tmRe();toast((k+1)+"일차 "+c.time+"로 옮겼어요. 확인을 누르면 저장돼요.")}
+function tmDel(i,quiet){const st=DAYS[di].stops;if(st.length<=1){toast("일정이 하나도 남지 않게 지울 수는 없어요.");return}
+ const s=st[i];if(s.pin&&!(TM.arm&&TM.arm.s===s&&Date.now()-TM.arm.t<4000)){TM.arm={s,t:Date.now()};toast("📌 고정된 일정이에요. 삭제하려면 한 번 더 눌러 주세요.");return}
+ st.splice(i,1);TM.arm=null;tmRe();toast(quiet?"보관함에 담고 일정에서 뺐어요.":"삭제했어요. 확인을 누르기 전에는 취소로 되돌릴 수 있어요.")}
+function tmRe(){const y=scrollY;document.body.classList.add("tmnt");build();tmLayout();scrollTo(0,y);requestAnimationFrame(()=>requestAnimationFrame(()=>document.body.classList.remove("tmnt")))}
+function tmLayout(){
+ if(PCV){tmPopOff();pcDraw();return}
+ const st=DAYS[di].stops,els=[...document.querySelectorAll("#stops .stop")],legOf=new Map([...document.querySelectorAll("#stops .leg")].map(e=>[+e.dataset.l,e]));
+ const meas=els.map((el,i)=>{if(i>=st.length-1)return null;const l=legOf.get(i);let natural=el.offsetHeight,base=0;
+  if(l){if(l.dataset.base===undefined)l.dataset.base=parseFloat(getComputedStyle(l).marginBottom)||0;base=+l.dataset.base;natural+=l.offsetHeight+(parseFloat(getComputedStyle(l).marginTop)||0)+base}
+  return{l,natural,base}});
+ tmFlags();
+ els.forEach((el,i)=>{const m=meas[i];if(!m)return;
+  const d=Math.max(0,T(st[i+1].time)-T(st[i].time)),extra=Math.max(0,d*TM_PPM-m.natural);
+  if(m.l)m.l.style.marginBottom=(m.base+extra)+"px";else el.style.marginBottom=extra+"px"});
+ tmPopOff();clearTimeout(TM.tt);TM.tt=setTimeout(()=>{tmTicks();update(true)},760)}
+function tmTicks(){
+ const tl=$("tl");let c=$("tmticks");if(!c){c=document.createElement("div");c.id="tmticks";tl.appendChild(c)}c.innerHTML="";
+ if(!TM.on)return;const st=DAYS[di].stops,els=[...document.querySelectorAll("#stops .stop")];if(els.length<2)return;
+ const Y=els.map(tmDot);
+ const tlr=$("tl").getBoundingClientRect(),dr=els[0].querySelector(".dot").getBoundingClientRect(),cx=dr.left+dr.width/2-tlr.left;
+ const T2Y=t=>{const A=st.map((s,i)=>[T(s.time),Y[i]]);if(t<=A[0][0])return A[0][1]-(A[0][0]-t)*TM_PPM;
+  for(let k=0;k<A.length-1;k++)if(t<=A[k+1][0]){const d=A[k+1][0]-A[k][0];return d>0?A[k][1]+(t-A[k][0])/d*(A[k+1][1]-A[k][1]):A[k][1]}
+  return A[A.length-1][1]+(t-A[A.length-1][0])*TM_PPM};
+ st.forEach((s,i)=>{if(s.dur>0){const y2=T2Y(T(s.time)+s.dur),b=document.createElement("i");b.className="sbar";b.style.left=(cx-3)+"px";b.style.top=Y[i]+"px";b.style.height=Math.max(4,y2-Y[i])+"px";c.appendChild(b)}});
+ for(let i=0;i<els.length-1;i++){const a=T(st[i].time),b=T(st[i+1].time);if(b<=a)continue;
+  for(let h=Math.ceil((a+1)/60)*60;h<b;h+=60){const y=Y[i]+(h-a)/(b-a)*(Y[i+1]-Y[i]);
+   if(Y.some(v=>Math.abs(v-y)<16))continue;const k=document.createElement("i");k.className="htk";k.style.top=(y-7)+"px";k.textContent=fmt(h);c.appendChild(k)}}}
+function tmYtoT(y,ex){const st=DAYS[di].stops,els=[...document.querySelectorAll("#stops .stop")];
+ const A=[];els.forEach((el,i)=>{if(i!==ex)A.push([tmDot(el),T(st[i].time)])});A.sort((p,q)=>p[1]-q[1]||p[0]-q[0]);
+ if(!A.length)return 0;if(y<=A[0][0])return A[0][1]-(A[0][0]-y)/TM_PPM;
+ for(let k=0;k<A.length-1;k++){if(y<=A[k+1][0]){const dy=A[k+1][0]-A[k][0];return dy>0?A[k][1]+(y-A[k][0])/dy*(A[k+1][1]-A[k][1]):A[k][1]}}
+ return A[A.length-1][1]+(y-A[A.length-1][0])/TM_PPM}
+function tmFlags(){
+ const st=DAYS[di].stops;
+ document.querySelectorAll("#stops .leg").forEach(e=>{const i=+e.dataset.l,s=st[i];if(!s||!s.leg)return;const adj=TM.oi.get(st[i+1])===TM.oi.get(s)+1;e.classList.toggle("tmx",!adj);const f=adj?legFlag(st,i):null;
+  e.classList.remove("bad","ov");if(f)e.classList.add(f.k);e.querySelector("span").textContent=adj?(f?"⚠️ "+f.t+" · ":"")+s.leg.sum:"순서가 바뀌어 확인하면 경로를 다시 계산해요"});
+ document.querySelectorAll("#stops .stop").forEach((e,i)=>{const p=i>0?legFlag(st,i-1):null;e.classList.toggle("ov",!!(p&&p.k==="ov"));
+  const card=e.querySelector(".card");let dc=card.querySelector(".tmd");if(!dc){dc=document.createElement("div");dc.className="tmd";dc.innerHTML='<button data-dm="-5" aria-label="5분 줄이기">−</button><b></b><button data-dm="5" aria-label="5분 늘리기">＋</button><span class="tmr"><button data-pn="1"></button><button data-del="1">🗑 삭제</button></span><span class="tmr"><button data-st="1">📦 보관함에 담기</button></span>';card.appendChild(dc)}
+  dc.querySelector("[data-pn]").textContent=st[i].pin?"📌 고정 해제":"📌 고정";dc.querySelector("b").textContent="머무는 시간 "+(st[i].dur>0?st[i].dur+"분":"없음");const old=card.querySelector(".dep");if(old)old.remove();const h=depLine(st,i);if(h){const m=card.querySelector("p");m.insertAdjacentHTML("afterend",h)}})}
+function tmClose(applied){if(PCV){$("bd").classList.remove("on");PESEL=-1}const sn=TM.snap,hc=TM.hc;clearTimeout(TM.tt);if(!applied&&sn){try{JSON.parse(TM.all).forEach((s,k)=>{DAYS[k].stops=s})}catch(e){DAYS[TM.di].stops=JSON.parse(sn)}save()}if(typeof GS!=="undefined"&&GS)GS.pre=null;
+ TM={on:false};document.body.classList.remove("tmv","pced");$("sim").classList.remove("rm");rmHdr(hc);const c=$("tmticks");if(c)c.remove();tmPopOff();$("tmbub").hidden=true;build()}
+function tmCancel(){if(!TM.on||TM.busy)return;tmClose(false);toast("일정 수정을 취소했어요.")}
+async function tmConfirm(){
+ if(!TM.on||TM.busy)return;const st=DAYS[di].stops,date=DAYS[di].date,orig=JSON.parse(TM.snap);
+ const changed=st.length!==orig.length||st.some((s,i)=>TM.oi.get(s)!==i||s.time!==orig[i].time||s.dur!==orig[i].dur);
+ if(!changed){tmClose(true);toast("바뀐 내용이 없어요.");return}
+ TM.busy=true;$("rmo").disabled=$("rmc").disabled=true;const msg=$("rmmsg"),oi=TM.oi;
+ const pairs=[];for(let i=1;i<st.length;i++){const a=st[i-1],oa=oi.get(a);
+  if(oi.get(st[i])!==oa+1||oa==null||a.time!==orig[oa].time||a.dur!==orig[oa].dur)pairs.push(i)}
+ let done=0;const key=gk.get(),F={n:0,msg:"",nokey:!key};msg.textContent=pairs.length?`경로 계산 중 (0/${pairs.length})…`:"저장 중…";
+ const job=async i=>{const a=st[i-1],b=st[i];let l=null;
+  if(key&&(a.q||a.pid)&&(b.q||b.pid)){try{l=await calcLeg(wpOf(a),wpOf(b),date,T(a.time)+a.dur)}catch(e){l=null;F.n++;F.msg=F.msg||e.message}}else if(key){F.n++;F.msg=F.msg||"장소 위치 정보가 없는 일정이 있어요"}
+  if(l&&l.src==="est")F.est=(F.est||0)+1;a.leg=l||estLeg();done++;msg.textContent=`경로 계산 중 (${done}/${pairs.length})…`};
+ for(let k=0;k<pairs.length;k+=3)await Promise.all(pairs.slice(k,k+3).map(job));
+ st[st.length-1].leg=undefined;
+ for(const k of TM.td){const o=DAYS[k].stops,jobs=[];o.forEach((a,i)=>{if(i<o.length-1&&(!a.leg||a.leg.mins===0))jobs.push(i)});
+  for(const i of jobs){const a=o[i],b=o[i+1];let l=null;if(key&&(a.q||a.pid)&&(b.q||b.pid)){try{l=await calcLeg(wpOf(a),wpOf(b),DAYS[k].date,T(a.time)+a.dur)}catch(e){l=null;F.n++;F.msg=F.msg||e.message}}a.leg=l||estLeg()}
+  if(o.length)o[o.length-1].leg=undefined}
+ save();$("rmo").disabled=$("rmc").disabled=false;tmClose(true);
+ if(F.nokey&&pairs.length)toast("구글 키가 없어서 이동 경로를 추정값(약 20분)으로 넣었어요. 키를 넣은 뒤 다시 확인해 주세요.",6000);
+ else if(F.n)toast(F.n+"개 구간은 구글 경로를 못 받아 추정값을 넣었어요 · "+F.msg,7000);
+ else toast(pairs.length?"시간을 바꾸고 이동 경로 "+pairs.length+"곳을 다시 계산했어요."+(F.est?" 그중 "+F.est+"곳은 구글이 일본 대중교통을 제공하지 않아 거리 기준 추정이에요.":""):"시간을 바꿨어요.",F.est?7000:3500)}
+(function(){
+ let timer=null,drag=null,sx=0,sy=0,raf=0;const S=$("tl");
+ const down=(x,y,tg)=>{if(!TM.on||TM.busy)return;const el=tg.closest(".stop");if(tg.closest(".tmd")||tg.closest(".leg"))return;
+  if(!el)return;sx=x;sy=y;clearTimeout(timer);
+  timer=setTimeout(()=>{timer=null;const i=+el.dataset.i,s=DAYS[di].stops[i];if(s.pin){toast("📌 고정된 일정은 끌 수 없어요. 먼저 고정을 풀어 주세요.");return}
+   drag=TM.drag={el,i,y0:sy,y:sy,sc0:scrollY,d0:tmDot(el),t:T(s.time)};el.classList.add("lift");try{navigator.vibrate&&navigator.vibrate(12)}catch(e){}step();raf=requestAnimationFrame(loop)},350)};
+ const step=()=>{const d=drag;if(!d)return;const s=DAYS[di].stops[d.i],dy=(d.y-d.y0)+(scrollY-d.sc0);
+  d.el.style.transform=`translateY(${dy}px)`;
+  const t=Math.max(0,Math.min(1439,snap5(tmYtoT(d.d0+dy,d.i))));d.t=t;
+  d.el.querySelector(".time").textContent=fmt(t);
+  const over=DAYS[di].stops.some((o,k)=>k!==d.i&&T(o.time)<=t+Math.max(s.dur,1)-1&&t<T(o.time)+Math.max(o.dur,1));
+  const b=$("tmbub");b.hidden=false;b.textContent=`${fmt(t)}${s.dur>0?" ~ "+fmt(t+s.dur):""}${over?" · 겹쳐요":""}`};
+ const loop=()=>{const d=drag;if(!d)return;const hb=document.querySelector("header").getBoundingClientRect().bottom;
+  if(d.y>innerHeight-150)scrollBy(0,12);else if(d.y<hb+50)scrollBy(0,-12);step();raf=requestAnimationFrame(loop)};
+ const move=(x,y,ev)=>{if(drag){if(ev.cancelable)ev.preventDefault();drag.y=y;return}if(timer&&(Math.abs(y-sy)>8||Math.abs(x-sx)>8)){clearTimeout(timer);timer=null}};
+ const up=()=>{clearTimeout(timer);timer=null;if(!drag)return;cancelAnimationFrame(raf);const d=drag;drag=null;TM.drag=null;
+  d.el.classList.remove("lift");d.el.style.transform="";$("tmbub").hidden=true;
+  const st=DAYS[di].stops;st[d.i].time=fmt(d.t);
+  const ix=new Map(st.map((s,i)=>[s,i])),sorted=st.slice().sort((a,b)=>T(a.time)-T(b.time)||ix.get(a)-ix.get(b)),same=sorted.every((s,i)=>s===st[i]);
+  if(same){tmFlags();tmLayout()}else{DAYS[di].stops=sorted;tmRe()}};
+ S.addEventListener("touchstart",e=>{const t=e.touches[0];down(t.clientX,t.clientY,e.target)},{passive:true});
+ document.addEventListener("touchmove",e=>{if(!TM.on)return;const t=e.touches[0];move(t.clientX,t.clientY,e)},{passive:false});
+ document.addEventListener("touchend",up);document.addEventListener("touchcancel",up);
+ S.addEventListener("mousedown",e=>down(e.clientX,e.clientY,e.target));
+ document.addEventListener("mousemove",e=>{if(TM.on)move(e.clientX,e.clientY,e)});
+ document.addEventListener("mouseup",up);
+ S.addEventListener("contextmenu",e=>{if(TM.on)e.preventDefault()});
+ S.addEventListener("click",e=>{if(!TM.on||TM.busy)return;const tg=e.target;if(tg.closest(".tmpop"))return;
+  const d0=document.querySelector("#stops .dot"),dr=d0&&d0.getBoundingClientRect(),onRail=dr&&Math.abs(e.clientX-(dr.left+dr.width/2))<=16&&!tg.closest(".dot");
+  if(onRail||tg===S||tg.id==="stops"){tmPop(e.clientY)}else tmPopOff()});
+ document.addEventListener("click",e=>{if(TM.on&&!e.target.closest("#tl"))tmPopOff()})})();
+
+
+/* ===== 추천 동선 (고정 일정 기준으로 순서·머무는 시간·시각을 다시 짜 줘요) ===== */
+const MEALRE=/식당|식사|점심|저녁|아침|라멘|라면|규카츠|야키|야끼|스시|초밥|우동|카레|피자|이자카야|고깃|오코노미|타코야키|맛집|카페|디저트|커피|베이커리|디너|런치|restaurant|cafe|pizza/i;
+function aiKind(s,i,n){if(s.pin)return"pin";if(i===n-1&&/숙소|호텔|복귀|귀환/.test(s.name))return"end";if(MEALRE.test(s.name+" "+(s.sum||"")))return"meal";if(/이동|하차|탑승|환승|출발|도착|특급|공항|체크인|체크아웃|복귀/.test(s.name))return"seq";return"free"}
+function aiDur(s,k){if(k==="pin"||k==="end"||k==="seq")return s.dur;const t=s.name+" "+(s.sum||"");
+ if(/카페|디저트|커피|베이커리/.test(t))return 40;
+ if(/이자카야|야키니쿠|고깃|야끼니쿠|바비큐/.test(t))return 90;
+ if(/라멘|라면|우동|규카츠|카레|덮밥|타코야키|피자/.test(t))return 50;
+ if(k==="meal")return 60;
+ if(/이동|하차|탑승|환승|출발/.test(s.name))return Math.min(s.dur||15,20);
+ if(/수족관|해유관|유니버설|USJ|테마파크/.test(t))return 120;
+ if(/성|신사|사원|사찰|공원|박물관|미술관|정원/.test(s.name))return 75;
+ if(/전망대|스카이/.test(t))return 60;
+ if(/크루즈|보트|리버/.test(t))return 30;
+ if(/시장|상점가|쇼핑|거리|타운|백화점|쇼핑몰/.test(t))return 60;
+ if(/체크인/.test(t))return 30;
+ return s.dur}
+const aiKm=(a,b)=>{const R=6371,r=x=>x*Math.PI/180,dl=r(b.lat-a.lat),dg=r(b.lng-a.lng),h=Math.sin(dl/2)**2+Math.cos(r(a.lat))*Math.cos(r(b.lat))*Math.sin(dg/2)**2;return 2*R*Math.asin(Math.sqrt(h))};
+const aiMin=(a,b)=>{if(!a||!b)return 20;const k=aiKm(a,b);return k<0.9?Math.max(3,Math.round(k*13)):Math.round(12+k*3.2)};
+function aiOrder(grp,pre,post){
+ const n=grp.length;if(n<2)return grp;
+ if(n>9){const left=grp.slice(),out=[];let cur=pre;while(left.length){let bi=0,bd=1e9;left.forEach((g,i)=>{const d=cur?aiMin(cur,g.ll):0;if(d<bd){bd=d;bi=i}});const g=left.splice(bi,1)[0];out.push(g);cur=g.ll}return out}
+ const N=1<<n,INF=1e9,dp=Array.from({length:N},()=>Array(n).fill(INF)),pv=Array.from({length:N},()=>Array(n).fill(-1));
+ for(let i=0;i<n;i++)dp[1<<i][i]=pre?aiMin(pre,grp[i].ll):0;
+ for(let m=1;m<N;m++)for(let i=0;i<n;i++){if(!(m&(1<<i))||dp[m][i]>=INF)continue;for(let j=0;j<n;j++){if(m&(1<<j))continue;const v=dp[m][i]+aiMin(grp[i].ll,grp[j].ll),mm=m|(1<<j);if(v<dp[mm][j]){dp[mm][j]=v;pv[mm][j]=i}}}
+ let bi=0,bv=INF;for(let i=0;i<n;i++){const v=dp[N-1][i]+(post?aiMin(grp[i].ll,post):0);if(v<bv){bv=v;bi=i}}
+ const out=[];let m=N-1,i=bi;while(i>=0){out.push(grp[i]);const p=pv[m][i];m^=1<<i;i=p}return out.reverse()}
+function aiSched(order,kinds,durs,orig0,legm){
+ const times=[],late=[];let cur=null;
+ order.forEach((s,i)=>{const k=kinds.get(s);let t;
+  if(i===0)t=T(orig0.get(s));else{const prev=order[i-1];t=up5(cur+legm(prev,s,i))}
+  if(k==="meal")t=Math.max(t,T(orig0.get(s)));
+  if(k==="pin"){const f=T(s.time);if(t>f)late.push({i,min:t-f});t=f}
+  times.push(t);cur=t+durs.get(s)});
+ return{times,late}}
+async function aiRec(){
+ if(!TM.on||TM.busy)return;const st0=DAYS[di].stops.slice(),n=st0.length;
+ if(n<3){toast("일정이 3개 이상일 때 추천할 수 있어요.");return}
+ if(!st0.some(s=>s.pin)&&!await ask("고정(📌)된 일정이 없어서 모든 일정의 순서·시각을 바꿔요. 계속할까요?\n(중요한 일정은 먼저 📌으로 고정하면 그 시각에 맞춰 짜 드려요)"))return;
+ TM.busy=true;toast("위치를 확인하고 동선을 짜는 중…",8000);
+ try{
+  const lls=await Promise.all(st0.map(s=>llOf(s)));st0.forEach((s,i)=>{if(lls[i])s.ll=lls[i]});
+  const kinds=new Map(st0.map((s,i)=>[s,aiKind(s,i,n)])),orig0=new Map(st0.map(s=>[s,s.time])),oIdx=new Map(st0.map((s,i)=>[s,i]));
+  const out=[];let i=0,reordered=0,noLoc=false;
+  while(i<n){const s=st0[i];if(kinds.get(s)!=="free"){out.push(s);i++;continue}
+   let j=i;while(j<n&&kinds.get(st0[j])==="free")j++;
+   const grp=st0.slice(i,j),pre=i>0&&st0[i-1].ll?st0[i-1].ll:null,post=j<n&&st0[j].ll?st0[j].ll:null;
+   if(grp.every(g=>g.ll)){const o=aiOrder(grp,pre,post);if(o.some((g,q)=>g!==grp[q]))reordered++;out.push(...o)}else{noLoc=true;out.push(...grp)}
+   i=j}
+  const durs=new Map(out.map(s=>[s,aiDur(s,kinds.get(s))])),rec0=new Map(durs);
+  const legm=(a,b)=>{const oa=oIdx.get(a),ob=oIdx.get(b);if(ob===oa+1&&a.leg&&legMins(a.leg)>0)return legMins(a.leg);return aiMin(a.ll,b.ll)};
+  let sc=aiSched(out,kinds,durs,orig0,legm);
+  for(let pass=0;pass<5&&sc.late.length;pass++){let changed=false;
+   sc.late.forEach(L=>{let need=L.min;for(let q=L.i-1;q>=0&&need>0;q--){const s=out[q],k=kinds.get(s);if(k==="pin")break;if(k==="end")continue;const d=durs.get(s),mn=Math.max(10,Math.round(rec0.get(s)*0.5/5)*5),cut=Math.min(need,d-mn);if(cut>0){const c=Math.ceil(cut/5)*5;durs.set(s,Math.max(mn,d-c));need-=c;changed=true}}});
+   if(!changed)break;sc=aiSched(out,kinds,durs,orig0,legm)}
+  const lateAt=new Map(sc.late.map(L=>[L.i,L.min]));
+  const rows=out.map((s,q)=>({s,q,t:sc.times[q],d:durs.get(s),k:kinds.get(s),late:lateAt.get(q)||0}));
+  const travel=(arr,useOld)=>arr.slice(1).reduce((a,s,q)=>{const p=arr[q];return a+(useOld&&p.leg&&legMins(p.leg)>0?legMins(p.leg):aiMin(p.ll,s.ll))},0);
+  TM.ai={out,rows};
+  const lines=rows.map(r=>{const o=oIdx.get(r.s),moved=o!==r.q,tc=r.s.time!==fmt(r.t),dc=r.s.dur!==r.d;
+   return `<div class="rv"><b>${r.k==="pin"?"📌 ":""}${fmt(r.t)}${tc?` <small style="display:inline">(${r.s.time}에서)</small>`:""} · ${esc(r.s.name.split(" (")[0])}</b><small>머무름 ${r.d}분${dc?` (기존 ${r.s.dur}분)`:""}${moved?` · ${o+1}번째 → ${r.q+1}번째`:""}${r.late?` · ⚠️ 고정 시각보다 ${r.late}분 늦어요`:""}</small></div>`}).join("");
+  const allLL=out.every(s=>s.ll);
+  $("sheet").innerHTML=`<h2>✨ 추천 동선</h2><p class="gn">📌 고정된 일정은 그 시각 그대로 두고, 그 사이 일정의 순서·머무는 시간·시각을 짜 봤어요. 이동·체크인 같은 연결 일정과 식사·카페 일정은 순서를 유지하고(식사는 기존 시각보다 일찍 잡지 않아요) 나머지 일정만 동선에 맞게 순서를 바꿔요.${reordered?` 순서를 바꾼 구간이 ${reordered}곳 있어요.`:" 순서는 이미 효율적이라 그대로예요."}${allLL?` 이동 시간 합계(추정): ${travel(out.slice().sort((a,b)=>oIdx.get(a)-oIdx.get(b)),true)}분 → ${travel(out,false)}분`:""}</p>${noLoc?'<p class="gn">⚠️ 일부 일정은 위치를 찾지 못해 순서를 바꾸지 않았어요. (구글 키가 필요해요)</p>':""}${lines}<p class="gn">적용하면 시간표만 바뀌고, 실제 이동 경로(대중교통·도보)는 ‘확인’을 누를 때 구글로 다시 계산해요.</p><div class="seg" style="gap:8px"><button class="sm" id="ai_ok">이 추천 적용하기</button><button class="sm" id="ai_x">닫기</button></div>`;
+  $("bd").classList.add("on");$("ai_x").onclick=()=>$("bd").classList.remove("on");
+  $("ai_ok").onclick=()=>{$("bd").classList.remove("on");const A=TM.ai;if(!A)return;A.rows.forEach(r=>{r.s.time=fmt(r.t);r.s.dur=r.d});DAYS[di].stops=A.out.slice();TM.ai=null;tmRe();toast("추천을 적용했어요. 마음에 안 들면 ‘취소’로 되돌리고, 괜찮으면 ‘확인’을 눌러 경로를 다시 계산하세요.",6000)};
+ }catch(e){toast("추천을 만들지 못했어요: "+e.message,6000)}
+ TM.busy=false}
+
+/* ===== PC 시간 비율 노선도 (일정 수정 · 24시간 보기 공용). 곡선 구간도 시간이 흘러요 ===== */
+var PCE=null,PESEL=-1,PVM="c";try{PVM=localStorage.getItem("pcvm")==="24"?"24":"c"}catch(e){}
+function tlLayout(st,t0,tE,cw){
+ const CW=132,CH=42,LG=8,lm=i=>i<st.length-1&&st[i].leg?legMins(st[i].leg):0;let maxL=2,L=null;
+ for(let it=0;it<4;it++){
+  const pitch=26+maxL*(CH+LG)+80,R=pitch/2,PX=Math.round(R+46),xL=PX,xR=cw-PX,W=xR-xL,PPM=W/120,SA=Math.PI*R/PPM,CY=120+SA;
+  const nR=Math.max(1,Math.floor((tE-t0)/CY)+1);
+  const ly=r=>60+r*pitch;
+  const pos=t=>{const u=Math.max(0,t-t0),r=Math.floor(u/CY),w=u-r*CY;
+   if(w<=120)return{x:r%2?xR-w*PPM:xL+w*PPM,y:ly(r),r,arc:false,nx:0,ny:-1};
+   const f=(w-120)/SA*Math.PI,rt=r%2===0,cx=rt?xR:xL,cy=ly(r)+R,sx=rt?1:-1;return{x:cx+sx*R*Math.sin(f),y:cy-R*Math.cos(f),r,arc:true,side:sx,nx:sx*Math.sin(f),ny:-Math.cos(f)}};
+  const pl=[],rects=[],nodes=st.map(s=>pos(T(s.time)));let need=1;
+  const hit=(l,t)=>rects.some(q=>l<q.l+CW+6&&l+CW>q.l-6&&t<q.t+CH+6&&t+CH>q.t-6)||nodes.some(n=>n.x>l-18&&n.x<l+CW+18&&n.y>t-18&&n.y<t+CH+18);
+  const lineHit=(l,t)=>{for(let r=0;r<nR+1;r++){const y=ly(r);if(y>t-10&&y<t+CH+10&&l<xR&&l+CW>xL)return true}return false};
+  st.forEach((s,i)=>{const p=nodes[i];let left,top,ok=false;
+   if(p.arc){const inL=p.side>0?p.x-CW-24:p.x+24,inL2=p.side>0?inL-CW-12:inL+CW+12;
+    const cand=[];[0,1,-1,2,-2,3,-3].forEach(k=>cand.push([inL,p.y-CH/2+k*(CH+10)]));[0,1,-1,2,-2].forEach(k=>cand.push([inL2,p.y-CH/2+k*(CH+10)]));
+    for(const [l,t] of cand){if(!hit(l,t)&&!lineHit(l,t)){left=l;top=t;ok=true;break}}
+    if(!ok){left=cand[0][0];top=cand[0][1]}}
+   else{const rev=p.r%2===1;left=rev?p.x-CW+16:p.x-16;left=Math.max(xL-PX+8,Math.min(xR+PX-8-CW,left));
+    for(let Ln=0;Ln<8;Ln++){const t=p.y+26+Ln*(CH+LG);if(!hit(left,t)||Ln===7){top=t;need=Math.max(need,Ln+1);break}}}
+   rects.push({l:left,t:top});pl.push({p,left,top})});
+  L={CW,CH,R,PX,xL,xR,W,PPM,SA,CY,nR,ly,pos,pl,t0,tE,pitch,H:ly(pos(tE).r)+26+maxL*(CH+LG)+20};
+  if(need<=maxL)break;maxL=Math.min(5,need)}
+ L.pieces=(ta,tb)=>{let d="";ta=Math.max(ta,L.t0);tb=Math.min(tb,L.tE);if(tb<=ta)return d;
+  for(let k=Math.max(0,Math.floor((ta-L.t0)/L.CY)*2),n=0;n<400;k++,n++){const r=k>>1,arc=k&1,sa=L.t0+r*L.CY+(arc?120:0),se=arc?L.t0+(r+1)*L.CY:L.t0+r*L.CY+120;if(sa>=tb)break;
+   const a0=Math.max(ta,sa),b0=Math.min(tb,se);if(b0<=a0)continue;const A=L.pos(a0),B=arc&&b0>=se?{x:r%2===0?L.xR:L.xL,y:L.ly(r+1)}:L.pos(b0);
+   d+=arc?`M${A.x} ${A.y} A${L.R} ${L.R} 0 0 ${r%2===0?1:0} ${B.x} ${B.y} `:`M${A.x} ${A.y} L${B.x} ${B.y} `}return d};
+ L.samp=[];for(let t=t0;t<=tE;t+=2){const p=L.pos(t);L.samp.push([t,p.x,p.y])}
+ return L}
+function buildTL(ro){const c=$("pc");if(!c)return;const d=DAYS[di],st=d.stops;pcTabs();if(!st.length){c.innerHTML="";return}
+ const cw=Math.max(640,c.clientWidth-48),lm=i=>i<st.length-1&&st[i].leg?legMins(st[i].leg):0;
+ const full=PVM==="24";
+ const sMin=Math.min(...st.map(s=>T(s.time))),sMax=Math.max(...st.map((s,i)=>T(s.time)+s.dur+lm(i)));
+ const t0=full?Math.max(0,Math.floor((sMin-60)/60)*60):Math.floor(sMin/60)*60,tE=full?Math.min(1440,Math.ceil((sMax+60)/60)*60):Math.min(1440,sMax+20);
+ const L=tlLayout(st,t0,tE,cw);PCE=L;
+ const off=(p,k)=>({x:p.x+p.nx*k,y:p.y+p.ny*k});
+ let trv="",bad="",stay="",el="",links="";const PILLS=[];
+ st.forEach((s,i)=>{const a=T(s.time),e=a+s.dur;stay+=L.pieces(a,e);const m=lm(i);
+  if(m>0){const nx=st[i+1],short=e+m>T(nx.time);if(short)bad+=L.pieces(e,e+m);else trv+=L.pieces(e,e+m);
+   const adj=ro||TM.oi.get(nx)===TM.oi.get(s)+1,txt=adj?(short?"⚠️ ":"")+legIco(s.leg)+" "+m+"분":"↻ 재계산",pw=18+[...txt].length*7,ph=18;
+   let best=null;
+   for(const ft of [0.5,0.3,0.7,0.15,0.85]){const p=L.pos(e+m*ft),ds=p.arc?[-34,-54,-76,-98,36]:[40,26,58,-34];
+    for(const k of ds){const q=off(p,k),r={l:q.x-pw/2,t:q.y-ph/2,w:pw,h:ph};
+     const bad2=L.pl.some(c=>r.l<c.left+L.CW+4&&r.l+r.w>c.left-4&&r.t<c.top+L.CH+4&&r.t+r.h>c.top-4)||L.pl.some(c=>Math.abs(c.p.x-q.x)<pw/2+18&&Math.abs(c.p.y-q.y)<ph/2+18)||PILLS.some(o=>r.l<o.l+o.w+4&&r.l+r.w>o.l-4&&r.t<o.t+o.h+4&&r.t+r.h>o.t-4);
+     if(!bad2){best={q,r};break}}if(best)break}
+   if(!best){const q=off(L.pos(e+m/2),L.pos(e+m/2).arc?-34:40);best={q,r:{l:q.x-pw/2,t:q.y-ph/2,w:pw,h:ph}}}
+   PILLS.push(best.r);el+=`<span class="epill${short?" bad":""}${ro?" lk":""}" data-l="${i}" style="left:${best.q.x}px;top:${best.q.y}px">${txt}</span>`}});
+ for(let h=Math.ceil(t0/60)*60;h<=tE;h+=60){const q=off(L.pos(h),22);el+=`<span class="etick" style="left:${q.x}px;top:${q.y}px">${h>=1440?"24:00":fmt(h)}</span>`}
+ st.forEach((s,i)=>{const P=L.pl[i],p=P.p,pf=i>0?legFlag(st,i-1):null,e=T(s.time)+s.dur;
+  {const cx=Math.max(P.left,Math.min(P.left+L.CW,p.x)),cy=Math.max(P.top,Math.min(P.top+L.CH,p.y));links+=`<line x1="${p.x}" y1="${p.y}" x2="${cx}" y2="${cy}" class="elk"/>`}
+  el+=`<div class="enode${s.pin?" pn":""}${ro?" ro":""}" data-i="${i}" style="left:${p.x}px;top:${p.y}px">${icon(s.name)}</div>`;
+  el+=`<div class="ecard${s.pin?" pn":""}${(ro?i===PSEL:i===PESEL)?" sel":""}${pf&&pf.k==="ov"?" ov":""}${ro?" ro":""}" data-i="${i}" style="left:${P.left}px;top:${P.top}px"><b>${s.pin?"📌 ":""}${s.name}</b><small><span>${s.time}${s.dur>0?"–"+fmt(e):""}</span>${s.dur>0?`<em>${durTxt(s.dur)}</em>`:""}</small></div>`;
+  if(!ro&&s.dur>=5){const q=L.pos(e);el+=`<i class="eknob" data-i="${i}" style="left:${q.x}px;top:${q.y}px" title="끌어서 머무는 시간 바꾸기"></i>`}});
+ let now="";if(ro&&d.date===today()){const n=nowMin();if(n>=t0&&n<=tE){const q=L.pos(n);now=`<i class="enow" style="left:${q.x}px;top:${q.y}px"><span>지금 ${fmt(n)}</span></i>`}}
+ const base=L.pieces(t0,tE);let dots="";
+ const dotAt=(t,dir)=>{const p=L.pos(t);if(p.arc)return"";const dx=(p.r%2?-1:1)*dir;let s="";for(let k=1;k<=3;k++)s+=`<circle cx="${p.x+dx*(6+k*9)}" cy="${p.y}" r="3" class="ed"/>`;return s};
+ if(t0>0)dots+=dotAt(t0,-1);if(tE<1440)dots+=dotAt(tE,1);
+ c.innerHTML=`<div class="pcttl"><b>DAY ${di+1} · ${d.title}</b><span>${st.length}개 일정${ro?"":" · 일정 수정 중"} · ${full?"24시간 보기 · 앞뒤 1시간 밖은 생략 ("+fmt(t0)+"~"+(tE>=1440?"24:00":fmt(tE))+")":"직선 한 줄 = 2시간"}</span></div><div class="esnake${ro?" ro":""}" id="esnake" style="height:${L.H}px;width:${cw}px"><svg width="${cw}" height="${L.H}">${links}<path d="${base}" class="eb"/><path d="${trv}" class="et"/><path d="${bad}" class="ex"/><path d="${stay}" class="es"/>${dots}</svg>${el}${now}${ro?"":'<i class="ehov" id="ehov" hidden><span></span></i>'}</div>`}
+function buildPCE(){buildTL(false)}
+function peT(cx,cy,ox,oy){const sn=$("esnake");if(!sn||!PCE)return null;const r0=sn.getBoundingClientRect(),px=cx-r0.left+(ox||0),py=cy-r0.top+(oy||0);
+ let best=null,bd=1e18;for(const q of PCE.samp){const d=(q[1]-px)**2+(q[2]-py)**2;if(d<bd){bd=d;best=q}}
+ if(!best)return null;const p=PCE.pos(best[0]);
+ const t=best[0]+(p.arc?0:(p.r%2?-(px-best[1]):(px-best[1]))/PCE.PPM);return{t:Math.max(PCE.t0,Math.min(PCE.tE,t)),dist:Math.sqrt(bd),px,py}}
+function peSort(){const st=DAYS[di].stops,ix=new Map(st.map((x,k)=>[x,k])),so=st.slice().sort((p,q)=>T(p.time)-T(q.time)||ix.get(p)-ix.get(q));if(!so.every((x,k)=>x===st[k]))DAYS[di].stops=so}
+function peOpen(i){const st=DAYS[di].stops,s=st[i];if(!s){$("bd").classList.remove("on");PESEL=-1;return}PESEL=i;
+ document.querySelectorAll("#esnake .ecard").forEach(x=>x.classList.toggle("sel",+x.dataset.i===i));
+ $("sheet").innerHTML=`<div class="tm">일정 수정</div><h2>${s.name}</h2><div class="pe"><div class="r"><span>시작</span><button data-a="t" data-v="-5">−</button><b>${s.time}</b><button data-a="t" data-v="5">＋</button></div><div class="r"><span>머무름</span><button data-a="d" data-v="-5">−</button><b>${s.dur}분</b><button data-a="d" data-v="5">＋</button></div><p class="gn">${s.time} ~ ${fmt(T(s.time)+s.dur)}${s.pin?" · 📌 고정된 일정이라 시작 시각은 바꿀 수 없어요":""}</p><button data-a="pin">${s.pin?"📌 고정 해제":"📌 시간 고정"}</button><button data-a="st">📦 보관함에 담기</button><button data-a="del" class="dl">🗑 삭제</button></div><button id="pe_x">닫기</button>`;
+ $("bd").classList.add("on");$("pe_x").onclick=()=>{$("bd").classList.remove("on");PESEL=-1;buildPC()};
+ $("sheet").querySelector(".pe").onclick=e=>{const b=e.target.closest("button");if(!b||TM.busy)return;const a=b.dataset.a;
+  if(a==="t"){if(s.pin){toast("📌 고정된 일정은 시작 시각을 바꿀 수 없어요.");return}s.time=fmt(Math.max(0,Math.min(1435,T(s.time)+(+b.dataset.v))));peSort();buildPC();peOpen(DAYS[di].stops.indexOf(s));return}
+  if(a==="d"){s.dur=Math.max(0,Math.min(720,s.dur+(+b.dataset.v)));buildPC();peOpen(DAYS[di].stops.indexOf(s));return}
+  if(a==="pin"){s.pin=!s.pin;buildPC();peOpen(DAYS[di].stops.indexOf(s));toast(s.pin?"고정했어요.":"고정을 풀었어요.");return}
+  if(a==="st"){tmStash(DAYS[di].stops.indexOf(s),false);peOpen(DAYS[di].stops.indexOf(s));return}
+  if(a==="del"){const k=DAYS[di].stops.indexOf(s);tmDel(k);if(DAYS[di].stops.indexOf(s)<0){$("bd").classList.remove("on");PESEL=-1}}}}
+(function(){let g=null,raf=0;const bub=()=>$("tmbub");
+ const down=(x,y,tg)=>{if(!PCV||!TM.on||TM.busy)return false;const h=tg.closest("#esnake .ecard,#esnake .enode,#esnake .eknob");if(!h)return false;
+  const i=+h.dataset.i,s=DAYS[di].stops[i];if(!s||!PCE)return false;const np=PCE.pos(T(s.time)),sn=$("esnake").getBoundingClientRect();
+  const ox=h.classList.contains("ecard")?np.x-(x-sn.left):0,oy=h.classList.contains("ecard")?np.y-(y-sn.top):0;
+  g={s,i,mode:h.classList.contains("eknob")?"end":h.classList.contains("enode")?"start":"move",x,y,ox,oy,ot:T(s.time),od:s.dur,moved:false};pcPopOff();return true};
+ const render=()=>{raf=0;if(!g)return;buildPCE();const k=DAYS[di].stops.indexOf(g.s);document.querySelectorAll('#esnake [data-i="'+k+'"]').forEach(e=>e.classList.add("drag"))};
+ const move=(x,y,ev)=>{const hv=$("ehov");
+  if(!g){if(!PCV||!TM.on||!hv)return;const p=peT(x,y);const onL=p&&p.dist<=16&&!ev.target.closest(".ecard,.enode,.eknob,.pcpop");
+   if(onL){const t=Math.max(0,Math.min(1435,snap5(p.t))),q=PCE.pos(t);hv.hidden=false;hv.style.left=q.x+"px";hv.style.top=q.y+"px";hv.firstChild.textContent=fmt(t)+" 여기에 추가"}else hv.hidden=true;return}
+  if(!g.moved){if(Math.hypot(x-g.x,y-g.y)<4)return;g.moved=true;if(g.s.pin&&g.mode!=="end"){toast("📌 고정된 일정은 시작 시각을 바꿀 수 없어요. 머무는 시간(끝 흰 점)은 조절돼요.");g=null;return}}
+  if(ev.cancelable)ev.preventDefault();const p=peT(x,y,g.ox,g.oy);if(!p)return;const s=g.s;
+  if(g.mode==="move")s.time=fmt(Math.max(0,Math.min(1435,snap5(p.t))));
+  else if(g.mode==="start"){const end=g.ot+g.od,nt=Math.max(0,Math.min(end,snap5(p.t)));s.time=fmt(nt);s.dur=end-nt}
+  else s.dur=Math.max(0,Math.min(720,snap5(p.t-g.ot)));
+  const st=DAYS[di].stops,a=T(s.time),over=st.some(o=>o!==s&&T(o.time)<a+Math.max(s.dur,1)&&a<T(o.time)+Math.max(o.dur,1));
+  const b=bub();b.hidden=false;b.textContent=`${s.time} ~ ${fmt(a+s.dur)} · ${s.dur}분${over?" · 겹쳐요":""}`;
+  if(y>innerHeight-110)scrollBy(0,12);else if(y<140)scrollBy(0,-12);
+  if(!raf)raf=requestAnimationFrame(render)};
+ const up=()=>{if(!g)return;const G=g;g=null;bub().hidden=true;if(raf){cancelAnimationFrame(raf);raf=0}
+  if(!G.moved){if(G.mode!=="end")peOpen(G.i);return}
+  peSort();tmRe();const k=DAYS[di].stops.indexOf(G.s);if($("bd").classList.contains("on")&&PESEL>=0)peOpen(k)};
+ document.addEventListener("mousedown",e=>{if(e.button===0&&down(e.clientX,e.clientY,e.target))e.preventDefault()});
+ document.addEventListener("mousemove",e=>move(e.clientX,e.clientY,e));
+ document.addEventListener("mouseup",up);
+ document.addEventListener("touchstart",e=>{const t=e.touches[0];down(t.clientX,t.clientY,e.target)},{passive:true});
+ document.addEventListener("touchmove",e=>{if(!g)return;const t=e.touches[0];move(t.clientX,t.clientY,e)},{passive:false});
+ document.addEventListener("touchend",up);
+ window.peClick=e=>{if(TM.busy)return;if(e.target.closest(".ecard,.enode,.eknob"))return;const sn=e.target.closest("#esnake");if(!sn){pcPopOff();return}
+  const p=peT(e.clientX,e.clientY);if(!p||p.dist>16){pcPopOff();return}e.stopPropagation();
+  const t=Math.max(0,Math.min(1435,snap5(p.t))),st=DAYS[di].stops;let after=-1;st.forEach((s,k)=>{if(T(s.time)<=t)after=k});
+  const q=PCE.pos(t),r0=sn.getBoundingClientRect(),hv=$("ehov");if(hv)hv.hidden=true;pcPop(after,r0.left+q.x,r0.top+q.y-12,t)}})();
+/* 상세 패널 접기 */
+(function(){new MutationObserver(()=>document.body.classList.toggle("inapp",!$("app").hidden)).observe($("app"),{attributes:true,attributeFilter:["hidden"]});document.body.classList.toggle("inapp",!$("app").hidden);
+ document.body.insertAdjacentHTML("beforeend",'<button type="button" id="pcfold" aria-label="상세 패널 접기">›</button>');
+ const f=$("pcfold"),set=c=>{document.body.classList.toggle("pcc",c);f.textContent=c?"‹":"›";f.setAttribute("aria-label",c?"상세 패널 펼치기":"상세 패널 접기");try{localStorage.setItem("pcc",c?"1":"0")}catch(e){}};
+ let c0=false;try{c0=localStorage.getItem("pcc")==="1"}catch(e){}set(c0);
+ f.onclick=()=>set(!document.body.classList.contains("pcc"));
+ new MutationObserver(()=>{if($("bd").classList.contains("on")&&document.body.classList.contains("pcc"))set(false)}).observe($("bd"),{attributes:true,attributeFilter:["class"]})})();
+
+/* ===== PC 화면: 하루 일정을 구불구불한 노선도로 ===== */
+var PSEL=0,PCOPEN=false;document.body.insertAdjacentHTML("beforeend",'<div id="pcph"><div class="v">일정 카드를 누르면<br>상세정보가 여기에 나와요</div><div class="e"><b>✏️ 일정 수정 중</b><br>• 직선 한 줄이 2시간이고, 곡선 구간에서도 시간이 이어져요. <span style="color:#c98f00;font-weight:700">노란 막대</span>는 머무는 시간, <span style="color:#1c9fd8;font-weight:700">하늘색 막대</span>는 이동 시간이에요 (모자라면 빨간색)<br>• 카드를 끌면 그 일정의 시각이 바뀌어요<br>• 동그라미 아이콘을 끌면 시작 시각, 노란 막대 끝 흰 점을 끌면 머무는 시간이 바뀌어요<br>• 카드를 누르면 여기에서 시간·고정·보관·삭제를 할 수 있어요<br>• 선의 빈 곳을 누르면 그 시각에 새 일정이나 보관함 일정을 넣어요<br>• 확인을 눌러야 저장되고 이동 경로가 다시 계산돼요</div></div>');
+const legIco=l=>l&&l.gm==="walking"?"🚶":l&&l.gm==="driving"?"🚕":"🚇";
+function pcCols(){const w=($("pc").clientWidth||900)-24*2-330;return Math.max(2,Math.min(6,Math.floor(w/165)))}
+function pcTabs(){const t=$("pctabs");if(!t)return;
+ t.innerHTML=DAYS.map((d,k)=>`<button type="button" data-k="${k}" aria-pressed="${k===di}">${k+1}일차</button>`).join("")+`<span class="pcvm"><button type="button" data-vm="c" aria-pressed="${PVM==="c"}">축약 보기</button><button type="button" data-vm="24" aria-pressed="${PVM==="24"}">24시간 보기</button></span><button type="button" class="pcedit" id="pced">일정 수정</button>`;
+ t.onclick=e=>{const b=e.target.closest("button");if(!b||TM.on||RM.on)return;
+  if(b.id==="pced"){pcEdit(di);return}
+  if(b.dataset.vm){PVM=b.dataset.vm;try{localStorage.setItem("pcvm",PVM)}catch(e){}build();return}
+  di=+b.dataset.k;PSEL=0;PCOPEN=true;build()}}
+function buildPC(){if(TM.on){buildPCE();return}PESEL=-1;if(PVM==="24"){if(PSEL>=DAYS[di].stops.length)PSEL=0;buildTL(true);if(PCOPEN){PCOPEN=false;setTimeout(()=>{if(PCV&&!TM.on&&!RM.on&&DAYS[di].stops[PSEL])openStop(PSEL)},0)}return}const c=$("pc");if(!c)return;const d=DAYS[di],st=d.stops,C=pcCols(),E=TM.on;
+ if(PSEL>=st.length||PSEL<0)PSEL=0;pcTabs();
+ const dd=Math.ceil((new Date(d.date+"T00:00:00")-new Date(today()+"T00:00:00"))/864e5),N=st.length+(E?1:0);
+ let h=`<div class="pcttl"><b>DAY ${di+1} · ${d.title}</b><span>${st.length}개 일정${dd>0?" · D-"+dd:""}${E?" · 일정 수정 중":""}</span></div><div class="snake" id="snake" data-c="${C}"><svg class="spath" id="spath"><path id="spp"></path></svg><div id="spills"></div>`;
+ for(let r=0;r*C<N;r++){const rev=r%2===1;h+='<div class="srow" style="--c:'+C+'">';
+  for(let k=0;k<C&&r*C+k<N;k++){const i=r*C+k,col=rev?C-k:k+1,gs=`style="grid-column:${col};grid-row:1"`;
+   if(i>=st.length){h+=`<div class="scell sadd" ${gs}><div class="snode plus" data-a="${st.length-1}" title="마지막에 일정 추가">＋</div></div>`;continue}
+   const s=st[i],pf=i>0?legFlag(st,i-1):null;
+   h+=`<div class="scell" data-i="${i}" ${gs}><div class="snode">${icon(s.name)}</div><div class="scard${s.pin?" pn":""}${i===PSEL&&!E?" sel":""}${pf&&pf.k==="ov"?" ov":""}" role="button" tabindex="0" data-i="${i}"><b>${s.name}</b><small><span>${s.time}</span>${s.dur>0?`<em>${durTxt(s.dur)}</em>`:""}</small></div>`;
+   if(E)h+=`<div class="sctl" data-i="${i}"><div class="r"><button data-tm="-5" aria-label="5분 앞당기기">−</button><b>시작 ${s.time}</b><button data-tm="5" aria-label="5분 늦추기">＋</button></div><div class="r"><button data-dm="-5" aria-label="5분 줄이기">−</button><b>머무름 ${s.dur>0?s.dur+"분":"없음"}</b><button data-dm="5" aria-label="5분 늘리기">＋</button></div><div class="r g"><button data-pn="1" class="${s.pin?"on":""}" title="${s.pin?"고정 해제":"시간 고정"}">📌</button><button data-st="1" title="보관함에 담기">📦</button><button data-del="1" class="dl" title="삭제">🗑</button></div></div>`;
+   h+=`</div>`}
+  h+="</div>"}
+ h+="</div>";c.innerHTML=h;requestAnimationFrame(pcDraw);pcMark();
+ if(PCOPEN){PCOPEN=false;setTimeout(()=>{if(PCV&&!TM.on&&!RM.on&&st[PSEL])openStop(PSEL)},0)}}
+function pcDraw(){const sn=$("snake");if(!sn)return;const st=DAYS[di].stops,C=+sn.dataset.c,r0=sn.getBoundingClientRect();
+ const P=st.map((s,i)=>{const n=sn.querySelector('.scell[data-i="'+i+'"] .snode');if(!n)return null;const r=n.getBoundingClientRect();return{x:r.left+r.width/2-r0.left,y:r.top+r.height/2-r0.top}});
+ if(!P.length||P.some(p=>!p))return;
+ const R=46;let d="M"+P[0].x+" "+P[0].y,pills="";
+ for(let i=1;i<P.length;i++){const p=P[i],q=P[i-1],turn=Math.floor(i/C)!==Math.floor((i-1)/C),sx=Math.floor((i-1)/C)%2===0?1:-1;
+  if(turn){const rr=(p.y-q.y)/2;d+=` A${rr} ${rr} 0 0 ${sx>0?1:0} ${p.x} ${p.y}`}else d+=` L${p.x} ${p.y}`;
+  const a=st[i-1],adj=!TM.on||TM.oi.get(st[i])===TM.oi.get(a)+1;if(TM.on&&!TM.busy){const px=turn?q.x+sx*(p.y-q.y)/2:(q.x+p.x)/2,py=turn?(q.y+p.y)/2+(a.leg?26:0):p.y;pills+=`<button type="button" class="spl" data-a="${i-1}" title="여기에 일정 추가" style="left:${px}px;top:${py}px">＋</button>`}
+  if(a.leg){const f=adj?legFlag(st,i-1):null,mx=turn?q.x+sx*(p.y-q.y)/2:(q.x+p.x)/2,my=turn?(q.y+p.y)/2:p.y-30,tf="";
+   pills+=`<button type="button" class="spill${f?" "+f.k:""}${adj?"":" tmx"}" data-l="${i-1}" style="left:${mx}px;top:${my}px${tf?";transform:"+tf:""}">${adj?(f?"⚠️ ":"")+legIco(a.leg)+" "+(a.leg.min&&a.leg.min!=="—"?String(a.leg.min).replace(/\s*\(.*?\)/g,"").replace("약 ",""):"확인"):"↻ 재계산"}</button>`}}
+ if(TM.on&&!TM.busy)pills+=`<button type="button" class="spl" data-a="-1" title="맨 앞에 일정 추가" style="left:${Math.max(26,P[0].x-70)}px;top:${P[0].y}px">＋</button>`
+ const sv=$("spath");sv.setAttribute("width",sn.clientWidth);sv.setAttribute("height",sn.clientHeight);$("spp").setAttribute("d",d);$("spills").innerHTML=pills}
+function pcMark(){if(!PCV)return;const sn=$("snake");if(!sn||DAYS[di].date!==today())return;
+ const st=DAYS[di].stops,now=nowMin();let cur=-1;st.forEach((s,i)=>{if(now>=T(s.time))cur=i});
+ sn.querySelectorAll(".scell").forEach((e,i)=>{e.classList.toggle("past",i<cur);e.classList.toggle("here",i===cur&&now<=T(st[i].time)+st[i].dur)})}
+setInterval(pcMark,60000);
+function pcEdit(k){di=k;$("bd").classList.remove("on");scrollTo(0,0);tmEnter()}
+function pcPopOff(){const p=$("pcpop");if(p)p.remove()}
+function pcAddT(after){const st=DAYS[di].stops;if(after<0)return Math.max(0,snap5(T(st[0].time)-60));
+ const s=st[after],end=T(s.time)+s.dur,nx=st[after+1];
+ if(nx&&end+10>T(nx.time))return Math.min(1435,snap5((T(s.time)+T(nx.time))/2));return Math.min(1435,up5(end))}
+function pcPop(after,x,y,tt){pcPopOff();const t=tt!=null?tt:pcAddT(after),p=document.createElement("div");p.id="pcpop";p.className="pcpop";p.style.left=x+"px";p.style.top=y+"px";
+ p.innerHTML='<div class="t">🕒 <b>'+fmt(t)+'</b>에 넣기</div><div class="rr"><button type="button" data-a="new">＋ 새 일정</button><button type="button" data-a="vault">📦 보관함 ('+VAULT.length+')</button></div>';
+ p.onclick=ev=>{ev.stopPropagation();const b=ev.target.closest("button");if(!b)return;pcPopOff();
+  if(b.dataset.a==="new"){ADDPRE={after,t,dur:60};openSearch(-1)}else tmVault(t,after)};
+ document.body.appendChild(p)}
+function pcEditClick(e){if(TM.busy)return;
+ const pl=e.target.closest(".spl,.snode.plus");if(pl){e.stopPropagation();const r=pl.getBoundingClientRect();pcPop(+pl.dataset.a,r.left+r.width/2,r.top);return}
+ const b=e.target.closest(".sctl button");pcPopOff();if(!b)return;const i=+b.closest(".sctl").dataset.i,st=DAYS[di].stops,s=st[i];
+ if(b.dataset.pn){s.pin=!s.pin;tmRe();toast(s.pin?"고정했어요. 이 일정은 끌 수 없어요.":"고정을 풀었어요.");return}
+ if(b.dataset.del){tmDel(i);return}
+ if(b.dataset.mv){tmMove(i,+b.dataset.mv);return}
+ if(b.dataset.st){tmStash(i,false);return}
+ if(b.dataset.dm){s.dur=Math.max(0,Math.min(720,s.dur+(+b.dataset.dm)));buildPC();return}
+ if(b.dataset.tm){if(s.pin){toast("📌 고정된 일정은 시각을 바꿀 수 없어요. 먼저 고정을 풀어 주세요.");return}
+  s.time=fmt(Math.max(0,Math.min(1439,snap5(T(s.time)+(+b.dataset.tm)))));
+  const ix=new Map(st.map((x,k)=>[x,k])),so=st.slice().sort((p,q)=>T(p.time)-T(q.time)||ix.get(p)-ix.get(q));
+  if(!so.every((x,k)=>x===st[k]))DAYS[di].stops=so;buildPC()}}
+/* 노선도에서 카드 끌어 순서 바꾸기 */
+(function(){let tmr=null,dg=null,sx=0,sy=0;const C=()=>$("pc");
+ const cells=()=>[...document.querySelectorAll("#snake .scell[data-i]")];
+ const near=(x,y)=>{let b=-1,bd=1e9;cells().forEach(c=>{const r=c.querySelector(".snode").getBoundingClientRect(),d=Math.hypot(x-(r.left+r.width/2),y-(r.top+r.height/2+40));if(d<bd){bd=d;b=+c.dataset.i}});return b};
+ const down=(x,y,tg)=>{if(!PCV||!TM.on||TM.busy||dg)return;const cd=tg.closest(".scard");if(!cd)return;sx=x;sy=y;clearTimeout(tmr);
+  tmr=setTimeout(()=>{tmr=null;const i=+cd.dataset.i,s=DAYS[di].stops[i];if(s.pin){toast("📌 고정된 일정은 끌 수 없어요. 먼저 고정을 풀어 주세요.");return}
+   pcPopOff();const cell=cd.closest(".scell");dg={cell,i,x,y,tg:i};cell.classList.add("lift");try{navigator.vibrate&&navigator.vibrate(12)}catch(e){}},300)};
+ const move=(x,y,ev)=>{if(dg){if(ev.cancelable)ev.preventDefault();dg.cell.style.transform=`translate(${x-dg.x}px,${y-dg.y}px)`;
+   const j=near(x,y);dg.tg=j;cells().forEach(c=>c.classList.toggle("tgt",+c.dataset.i===j&&j!==dg.i));
+   const b=$("tmbub");b.hidden=false;b.textContent=j===dg.i?"제자리":(dg.i+1)+"번 → "+(j+1)+"번 자리";return}
+  if(tmr&&(Math.abs(y-sy)>8||Math.abs(x-sx)>8)){clearTimeout(tmr);tmr=null}};
+ const up=()=>{clearTimeout(tmr);tmr=null;if(!dg)return;const d=dg;dg=null;d.cell.classList.remove("lift");d.cell.style.transform="";cells().forEach(c=>c.classList.remove("tgt"));$("tmbub").hidden=true;
+  const i=d.i,j=d.tg;if(j<0||j===i)return;const st=DAYS[di].stops,lo=Math.min(i,j),hi=Math.max(i,j);
+  if(st.slice(lo,hi+1).some((s,k)=>s.pin)){toast("📌 고정된 일정이 사이에 있어서 옮길 수 없어요. 먼저 고정을 풀어 주세요.");return}
+  const times=st.map(s=>s.time),it=st.splice(i,1)[0];st.splice(j,0,it);for(let k=lo;k<=hi;k++)st[k].time=times[k];
+  tmRe();toast((i+1)+"번 일정을 "+(j+1)+"번 자리로 옮겼어요. 시각은 자리 기준으로 유지돼요.")};
+ document.addEventListener("touchstart",e=>{const t=e.touches[0];down(t.clientX,t.clientY,e.target)},{passive:true});
+ document.addEventListener("touchmove",e=>{if(!TM.on||!PCV)return;const t=e.touches[0];move(t.clientX,t.clientY,e)},{passive:false});
+ document.addEventListener("touchend",up);document.addEventListener("touchcancel",up);
+ document.addEventListener("mousedown",e=>{if(e.button===0)down(e.clientX,e.clientY,e.target)});
+ document.addEventListener("mousemove",e=>{if(TM.on&&PCV)move(e.clientX,e.clientY,e)});
+ document.addEventListener("mouseup",up);
+ document.addEventListener("click",e=>{if(!e.target.closest(".pcpop,.spl,.snode.plus"))pcPopOff()})})();
+function pcResize(){if(!PCV||$("app").hidden||RM.on)return;if(TM.on||PVM==="24"){const es=$("esnake");if(!es||Math.abs(es.querySelector("svg").getAttribute("width")-Math.max(640,$("pc").clientWidth-48))>4)buildPC();return}const sn=$("snake");if(sn&&pcCols()!==+sn.dataset.c)buildPC();else pcDraw()}
+(function(){
+ const mq=matchMedia("(min-width:1100px)");
+ let LAY=null;try{LAY=localStorage.getItem("lay")}catch(e){}
+ const set=()=>{PCV=LAY==="pc"?true:LAY==="mobile"?false:mq.matches;document.body.classList.toggle("pcv",PCV);document.body.classList.toggle("pcf",PCV&&!mq.matches);
+  const b=$("layb");if(b)b.textContent=PCV?"모바일로 보기":"PC로 보기";if(!$("app").hidden){PCOPEN=PCV;build()}};
+ if(mq.addEventListener)mq.addEventListener("change",set);else mq.addListener(set);set();
+ $("layb").onclick=()=>{if(TM.on||RM.on){toast("일정 수정 중에는 바꿀 수 없어요. 확인이나 취소를 먼저 눌러 주세요.");return}
+  LAY=PCV?"mobile":"pc";try{localStorage.setItem("lay",LAY)}catch(e){}set();scrollTo(0,0)};
+ $("pc").addEventListener("click",e=>{if(TM.on){peClick(e);return}if(RM.on)return;
+  const pl=e.target.closest(".spill");if(pl){openLeg(+pl.dataset.l);return}
+  const lk=e.target.closest(".epill.lk");if(lk){openLeg(+lk.dataset.l);return}
+  const ec=e.target.closest(".ecard.ro,.enode.ro");if(ec){PSEL=+ec.dataset.i;document.querySelectorAll("#esnake .ecard").forEach(x=>x.classList.toggle("sel",+x.dataset.i===PSEL));openStop(PSEL);return}
+  const cd=e.target.closest(".scard");if(!cd)return;PSEL=+cd.dataset.i;
+  document.querySelectorAll("#pc .scard").forEach(x=>x.classList.toggle("sel",+x.dataset.i===PSEL));openStop(PSEL)});
+ let rt=null;window.addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(pcResize,150)});
+ new MutationObserver(()=>{document.body.classList.toggle("dr",$("bd").classList.contains("on")&&PCV);setTimeout(pcResize,30);setTimeout(pcResize,350)}).observe($("bd"),{attributes:true,attributeFilter:["class"]});
+ document.addEventListener("keydown",e=>{if(e.key==="Escape"&&PCV&&!RM.review)$("bd").classList.remove("on")})})();
+
+const ICONS=[[/로바타야키|이사리비/,"🔥"],[/면세|환급/,"🛃"],[/셔틀/,"🚌"],[/라피트|난카이/,"🚆"],[/공항역|난바역/,"🚉"],[/출국|출발 ✈|피치|공항/,"✈️"],[/호텔|숙소/,"🏨"],[/돈카츠/,"🍱"],[/초밥|스시/,"🍣"],[/야키니쿠|리키마루/,"🥩"],[/야키토리|쿠시카츠|다루마/,"🍢"],[/마쓰야/,"🍚"],[/시장/,"🐟"],[/오사카성/,"🏯"],[/피자/,"🍕"],[/크루즈/,"🚤"],[/포켓몬/,"⚡"],[/스카이빌딩|전망대|하루카스/,"🌃"],[/해유관/,"🐋"],[/덴덴/,"🎮"],[/@home|메이드/,"🎀"],[/나이브스/,"🔪"],[/토비타/,"🏮"],[/돈키호테/,"🛍️"],[/호젠지/,"⛩️"]];
 function icon(n){for(const [re,e] of ICONS)if(re.test(n))return e;return "📍"}
 const CAN_SPEAK="speechSynthesis" in window;
 function resLink(x){
  if(x.link){const rs=/tablecheck|hotpepper|savorjapan|kaiyukan|osaka-info\.jp\/experience\/ko/.test(x.link);return{href:x.link,label:rs?"예약사이트 방문하기":"공식 사이트 방문하기"}}
  if(/료보|Ohno|리키마루|헨리피자|다루마|크루즈|스카이빌딩|포켓몬/.test(x.name))return{href:"https://www.google.com/search?q="+encodeURIComponent((x.q||x.name)+" 予約"),label:"예약사이트 찾기 (구글 검색)"};
+ if(x.pid)return{href:"https://www.google.com/search?q="+encodeURIComponent((x.q||x.name)+" 予約"),label:"예약사이트 찾기 (구글 검색)"};
  return null}
 function stopExtra(x){
  const r=resLink(x);let h="";
  const rows=(x.info||[]).map(q=>`<div><b>${q[0]}</b><span>${q[1]}</span></div>`);
  if(r)rows.push(`<div><b>예약</b><span><a class="hl" target="_blank" rel="noopener" href="${r.href}">${r.label} ↗</a></span></div>`);
  if(rows.length)h+=`<h3 class="jh">📋 정보</h3><div class="info">${rows.join("")}</div>`;
- if(r)h+=`<a class="go" target="_blank" rel="noopener" href="${r.href}">🔗 ${r.label}</a>`;
  if(x.jp&&x.jp.length)h+=`<details class="jpd"><summary><span class="o">🗣 일본어 회화 펼치기 (${x.jp.length})</span><span class="c">🗣 일본어 회화 접기</span></summary>${x.jp.map(l=>`<div class="jp ${l[0]==="나"?"me":""}"><b>${l[0]}</b><div class="ja">${l[1]}</div><div class="ko">${l[2]}</div><div class="mn">${l[3]}</div>${CAN_SPEAK?`<button class="spk" data-t="${l[1]}">🔊 듣기</button>`:""}</div>`).join("")}${CAN_SPEAK?"":`<p class="mn" style="margin-top:8px">이 브라우저에서는 듣기 기능을 쓸 수 없어요.</p>`}</details>`;
  return h}
 function speak(t){try{const sp=window.speechSynthesis;sp.cancel();const u=new SpeechSynthesisUtterance(t.replace(/〇〇/g,""));u.lang="ja-JP";u.rate=.85;const v=sp.getVoices().find(v=>/^ja/i.test(v.lang));if(v)u.voice=v;sp.speak(u)}catch(e){}}
@@ -433,8 +1553,8 @@ function buildHome(){
  const t=today(),k=DAYS.findIndex(d=>d.date===t),n=Math.ceil((new Date(DAYS[0].date+"T00:00:00")-new Date(t+"T00:00:00"))/864e5);
  $("h-sub").textContent=k>=0?"오늘은 "+(k+1)+"일차 · 지금 어디쯤인지 보기":n>0?"여행 시작까지 D-"+n+" · 일정을 미리 볼 수 있어요":"여행이 끝났어요 · 일정을 다시 볼 수 있어요";
 }
-function showApp(i){$("home").hidden=true;$("app").hidden=false;di=i;build();scrollTo(0,0)}
-function showHome(){$("app").hidden=true;$("home").hidden=false;$("bd").classList.remove("on");scrollTo(0,0)}
+function showApp(i){$("home").hidden=true;$("app").hidden=false;di=i;PSEL=0;PCOPEN=PCV;build();scrollTo(0,0)}
+function showHome(){if(RM.on&&!RM.busy)rmCancel();$("app").hidden=true;$("home").hidden=false;$("bd").classList.remove("on");scrollTo(0,0)}
 const TAX=[
 ["📌 한눈에 보기",["2026년 11월 1일 이후 구매분은 '환급 방식'이에요. 매장에서는 세금이 포함된 가격(10%, 식품 8%)을 그대로 내요.","출국 공항에서 여권을 스캔하고 세관 확인을 받으면 세금이 환급돼요.","이번 여행(11/7~11/9)은 모두 새 방식이 적용돼요."]],
 ["✅ 환급 대상 조건",["일본에 사는 사람이 아닌 방문객 (여권 필요)","'Tax-Free' 표시가 있는 면세점에서 구매","같은 매장에서 같은 날 세금 제외 합계 ¥5,000 이상","일반상품(의류·잡화·가전·칼 등)과 소모품(식품·음료·화장품·의약품 등) 모두 대상. 소모품 상한 ¥500,000은 폐지됐고 특수 포장도 필요 없어요.","구매 후 90일 이내에 출국 절차를 마쳐야 하고, 산 물건은 직접 들고 나가야 해요 (배송 불가)."]],
